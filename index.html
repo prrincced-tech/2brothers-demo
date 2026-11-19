@@ -67,6 +67,19 @@ form .btn{width:100%;margin-top:18px;height:54px;font-size:17px}
 .steps div{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
 .steps i{font-style:normal;color:var(--a);font-weight:800;font-size:13px}
 .steps b{display:block;font-size:18px;margin:6px 0 4px}.steps span{color:var(--muted);font-size:15px}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fs{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.fs i{font-style:normal;color:var(--a);font-weight:800;font-size:13px}
+.fs p{color:var(--muted);font-size:15px}
+.ig{background:#000;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.igm{max-width:88%;padding:9px 12px;border-radius:18px;font-size:14px;line-height:1.4}
+.igm span{display:block;font-size:11px;opacity:.6;margin-top:3px}
+.igm.in{background:#262626;align-self:flex-start}
+.igm.out{background:#3797F0;align-self:flex-end}
+.mini{background:var(--tile);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.mini span{color:var(--muted);font-size:14px}
+.mini em{font-style:normal;background:var(--a);border-radius:10px;text-align:center;padding:9px;font-weight:700;font-size:14px;margin-top:4px}
+@media(max-width:820px){.flow{grid-template-columns:1fr}}
 footer{padding:36px 0 110px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
 footer b{color:var(--fg)}
 .mcta{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;display:none}
@@ -82,7 +95,7 @@ footer b{color:var(--fg)}
 </style>
 </head>
 <body>
-<div class="demo">Приклад для 2 Brothers: так сторінку побачать ваші клієнти</div>
+<a class="demo" href="#how" style="display:block">Приклад для 2 Brothers · як це працює ↓</a>
 <header><div class="wrap"><a class="logo" href="#">2 Brothers<b>.</b></a><a class="btn sm" href="#book">Залишити заявку</a></div></header>
 
 <section class="hero" style="padding:0">
@@ -96,7 +109,30 @@ footer b{color:var(--fg)}
  </div>
 </section>
 
-<section id="works"><div class="wrap">
+<section id="how"><div class="wrap">
+ <div class="kick">Для 2 Brothers · як це працює</div><h2>Клієнт пише о 22:47. Заявка у вас уже о 22:48</h2>
+ <div class="flow">
+  <div class="fs"><i>01 · Instagram Direct</i>
+   <div class="ig">
+    <div class="igm in">Добрий вечір, скільки плівка на капот на Camry?<span>22:47</span></div>
+    <div class="igm out">Дякуємо! Ми зараз не в боксі. Залиште заявку за 30 секунд, передзвонимо вранці 👉 <u>2brothers…/zayavka</u><span>22:47 · автовідповідь</span></div>
+   </div>
+   <p>Людина пише ввечері або з закритого акаунта. Автовідповідь одразу дає їй посилання.</p>
+  </div>
+  <div class="fs"><i>02 · Ця сторінка</i>
+   <div class="mini"><b>Антигравійна плівка</b><span>Toyota Camry · Завтра · +380 67…</span><em>Надіслати заявку</em></div>
+   <p>30 секунд: авто, послуга, коли зручно, телефон. Без переписки і чекання.</p>
+  </div>
+  <div class="fs"><i>03 · Ваш Telegram</i>
+   <div class="bub" style="max-width:none">🔔 <b>Нова заявка</b><br>🚗 Toyota Camry<br>🛠 Антигравійна плівка<br>📅 Завтра<br>📞 +380 67…<span class="t">22:48</span></div>
+   <p>Вранці відкрили, передзвонили, записали. Клієнт не пішов в іншу студію.</p>
+  </div>
+ </div>
+ <div class="cta" style="margin-top:22px"><a class="btn" href="#book">Спробуйте самі як клієнт ↓</a></div>
+ <p class="hint" style="text-align:left;margin-top:10px">Заповніть форму нижче будь-якими даними, і побачите, що саме прийде вам.</p>
+</div></section>
+
+<section id="works" style="padding-top:0"><div class="wrap">
  <div class="kick">Роботи</div><h2>З нашого боксу</h2>
  <div class="gal">
   <figure><img src="img/lexus.jpg" alt="" loading="lazy"><figcaption>Lexus · сатинова плівка + кераміка</figcaption></figure>
@@ -146,14 +182,6 @@ footer b{color:var(--fg)}
  </div>
 </div></section>
 
-<section style="padding-top:0"><div class="wrap">
- <div class="kick">Як це працює для вас</div><h2>Жодна вечірня заявка не губиться</h2>
- <div class="steps">
-  <div><i>01</i><b>Посилання в шапці і автовідповіді</b><span>Людина пише ввечері або в неї закритий акаунт, а відповідь одразу дає їй це посилання.</span></div>
-  <div><i>02</i><b>30 секунд на заявку</b><span>Авто, послуга, коли зручно, телефон. Без переписки і чекання.</span></div>
-  <div><i>03</i><b>Заявка у вас в Telegram</b><span>Вранці відкрили, передзвонили, записали. Клієнт не пішов в іншу студію.</span></div>
- </div>
-</div></section>
 
 <footer><div class="wrap"><b>2 Brothers Detailing</b> · бул. Дружби Народів 14/16, Київ · <a href="tel:+380661411888">066 141 1888</a> · <a href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">@2brothers_detailing_</a></div></footer>
 <div class="mcta"><a class="btn" href="#book">Залишити заявку за 30 секунд</a></div>
