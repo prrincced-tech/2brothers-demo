@@ -158,6 +158,16 @@ footer b{color:var(--fg)}
 .bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:50;display:none}
 .bar .btn{width:100%;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,.6)}
 
+
+/* desktop hero: portrait photo at native size on the right, text on graphite */
+@media(min-width:901px){
+ .hero{align-items:center}
+ .hero img{left:auto;right:0;width:54vw;max-width:900px;object-position:50% 58%}
+ .hero:after{background:linear-gradient(90deg,#121315 0%,#121315 calc(100% - 54vw),rgba(18,19,21,.55) calc(100% - 50vw),rgba(18,19,21,0) calc(100% - 38vw)),linear-gradient(180deg,rgba(18,19,21,.45),rgba(18,19,21,0) 22%,rgba(18,19,21,0) 78%,#121315)}
+ .hero .wrap{grid-template-columns:minmax(0,600px);padding:96px 24px 56px;gap:26px}
+ .hero h1{font-size:clamp(52px,6.2vw,96px)}
+ .hero .gl{left:auto;width:54vw}
+}
 @media(max-width:900px){
  .nav ul,.nav .demo{display:none}
  .hero .wrap{grid-template-columns:1fr;gap:18px;padding-bottom:30px}.hero .side p{font-size:16px}
