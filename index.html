@@ -4,201 +4,282 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>2 Brothers Detailing: заявка за 30 секунд</title>
-<meta name="theme-color" content="#0B0B0D">
+<title>2 Brothers Detailing · Печерськ</title>
+<meta name="description" content="Антигравійна плівка, полірування, кераміка і хімчистка на Печерську. Заявка за 30 секунд, навіть уночі.">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/oct2.jpg">
 <style>
-:root{--bg:#0B0B0D;--panel:#141418;--tile:#1C1C22;--line:rgba(255,255,255,.09);--fg:#F4F4F6;--muted:#9A9AA6;--a:#E3262E;--tg:#2AABEE;color-scheme:dark}
+:root{--bg:#0A0A0A;--s1:#121212;--s2:#1A1A1A;--line:rgba(255,255,255,.08);--fg:#F2F0EC;--mut:#8E8B86;--a:#E0262E;--ease:cubic-bezier(.2,.7,.1,1);color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 Onest,-apple-system,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button,input{font:inherit;color:inherit}
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-.demo{background:var(--a);color:#fff;font-size:13px;text-align:center;padding:7px 12px;font-weight:600}
-header{position:sticky;top:0;z-index:20;background:rgba(11,11,13,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
-.logo{font-weight:800;letter-spacing:-.02em;font-size:18px}.logo b{color:var(--a)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 22px;border-radius:14px;background:var(--a);color:#fff;font-weight:700;border:0;cursor:pointer;transition:transform .15s,filter .15s}
-.btn:active{transform:scale(.98)}.btn:hover{filter:brightness(1.1)}
-.btn.sm{height:40px;padding:0 14px;font-size:14px;border-radius:11px}
-.btn.ghost{background:transparent;border:1px solid var(--line)}
-.hero{position:relative;min-height:88svh;display:flex;align-items:flex-end;overflow:hidden}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,13,.15) 0%,rgba(11,11,13,.55) 45%,var(--bg) 100%)}
-.hero .wrap{position:relative;z-index:1;padding-bottom:34px;width:100%}
-.kick{color:var(--a);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
-h1{font-size:clamp(34px,7vw,64px);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:10px 0 14px;max-width:14ch}
-.hero p{color:#D6D6DC;max-width:46ch;font-size:17px}
-.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:26px;max-width:560px}
-.facts div{background:rgba(20,20,24,.75);border:1px solid var(--line);border-radius:14px;padding:12px}
-.facts b{display:block;font-size:22px;letter-spacing:-.02em}.facts span{font-size:12px;color:var(--muted)}
-section{padding:64px 0}
-h2{font-size:clamp(28px,5vw,44px);letter-spacing:-.03em;line-height:1.05;margin:8px 0 22px;font-weight:800}
-.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.gal figure{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:9/14;background:var(--tile)}
-.gal img{width:100%;height:100%;object-fit:cover}
-.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:28px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:14px;font-weight:600}
-.book{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:28px}
-.book p.note{color:var(--muted);margin-top:10px}
-.lbl{display:block;font-size:13px;color:var(--muted);margin:16px 0 8px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-weight:800;letter-spacing:-.035em;line-height:.98}
+h2{font-size:clamp(34px,5.2vw,72px)}
+.k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:10px}
+.k:before{content:"";width:22px;height:2px;background:var(--a)}
+.btn{display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 26px;border-radius:999px;background:var(--a);color:#fff;font-weight:700;border:0;cursor:pointer;transition:transform .25s var(--ease),background .25s}
+.btn:hover{transform:translateY(-2px);background:#F0333B}.btn:active{transform:translateY(0) scale(.98)}
+.btn .ar{display:inline-block;transition:transform .25s var(--ease)}.btn:hover .ar{transform:translateX(4px)}
+.btn.line{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}.btn.line:hover{background:rgba(255,255,255,.06)}
+.ul{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .3s var(--ease)}.ul:hover{background-size:100% 1px}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto;z-index:40;transition:background .3s,backdrop-filter .3s}
+.nav.on{background:rgba(10,10,10,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.mark{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.03em;font-size:19px}
+.mark i{width:34px;height:34px;border-radius:9px;background:var(--a);display:grid;place-items:center;font-style:normal;font-size:14px}
+.nav ul{display:flex;gap:28px;list-style:none;font-size:15px;color:#CFCBC5}
+.nav .btn{height:44px;padding:0 18px;font-size:14px}
+.demo{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:6px 10px}
+
+/* hero */
+.hero{position:relative;height:100svh;min-height:640px;overflow:hidden;display:flex;align-items:flex-end}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;transform:scale(1.08);animation:zoom 2.2s var(--ease) forwards}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,0) 28%,rgba(10,10,10,.25) 55%,rgba(10,10,10,.96) 100%)}
+.hero .wrap{position:relative;z-index:1;width:100%;padding-bottom:56px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end}
+.hero h1{font-size:clamp(46px,7.6vw,118px)}
+.hero h1 span{display:block;overflow:hidden}.hero h1 span b{display:block;font-weight:inherit;transform:translateY(105%);animation:up .9s var(--ease) forwards}
+.hero h1 span:nth-child(2) b{animation-delay:.08s}.hero h1 span:nth-child(3) b{animation-delay:.16s;color:var(--a)}
+.hero .side{opacity:0;animation:fade .8s .45s var(--ease) forwards}
+.hero .side p{color:#D9D5CF;font-size:18px;max-width:38ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.rate{display:flex;align-items:center;gap:10px;margin-top:22px;font-size:14px;color:#D9D5CF}
+.rate b{font-size:15px;color:#fff}.stars{color:#F5B301;letter-spacing:2px}
+@keyframes zoom{to{transform:scale(1)}}@keyframes up{to{transform:none}}@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* facts strip */
+.strip{border-block:1px solid var(--line)}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.strip div{padding:26px 0;border-left:1px solid var(--line);padding-left:24px}.strip div:first-child{border-left:0;padding-left:0}
+.strip b{display:block;font-size:34px;letter-spacing:-.03em;font-weight:800}.strip span{color:var(--mut);font-size:14px}
+
+section{padding:120px 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:48px}
+.head p{color:var(--mut);max-width:40ch;font-size:17px}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{position:relative;border-radius:22px;overflow:hidden;background:var(--s1);aspect-ratio:3/4.4;display:block;transition:transform .35s var(--ease)}
+.card:hover{transform:translateY(-2px)}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.card:hover img{transform:scale(1.03)}
+.card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.85))}
+.card .t{position:absolute;left:20px;right:20px;bottom:20px;z-index:1}
+.card h3{font-size:26px}.card p{color:#C9C5BF;font-size:14px;margin-top:8px}
+.card .n{position:absolute;top:18px;left:20px;z-index:1;font-size:12px;color:#fff;opacity:.8;letter-spacing:.1em}
+
+/* works wall */
+.wall{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:220px;gap:16px}
+.wall a{position:relative;border-radius:22px;overflow:hidden;background:var(--s1)}
+.wall img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.wall a:hover img{transform:scale(1.03)}
+.w1{grid-column:span 5;grid-row:span 2}.w2{grid-column:span 4;grid-row:span 2}.w3{grid-column:span 3;grid-row:span 2}
+.w4{grid-column:span 3;grid-row:span 2}.w5{grid-column:span 4;grid-row:span 2}.w6{grid-column:span 5;grid-row:span 2}
+
+/* moment: how it works */
+.how{background:var(--s1)}
+.stage{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.panel{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:22px;min-height:340px;display:flex;flex-direction:column;gap:14px}
+.panel .lab{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);display:flex;justify-content:space-between}
+.panel .lab em{font-style:normal;color:var(--a);font-weight:700}
+.panel p.d{color:var(--mut);font-size:15px;margin-top:auto}
+.bub{max-width:88%;padding:10px 14px;border-radius:20px;font-size:15px;line-height:1.4;opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.bub small{display:block;font-size:11px;opacity:.6;margin-top:3px}
+.bub.in{background:#262626;align-self:flex-start}.bub.out{background:#3797F0;align-self:flex-end}
+.dots{align-self:flex-start;background:#262626;border-radius:20px;padding:12px 14px;display:none;gap:4px}.dots i{width:6px;height:6px;border-radius:50%;background:#aaa;animation:bl 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes bl{50%{opacity:.25}}
+.mf{display:flex;flex-direction:column;gap:8px}
+.mf .f{height:44px;border-radius:12px;background:var(--s2);border:1px solid var(--line);display:flex;align-items:center;padding:0 12px;font-size:14px;color:var(--mut);overflow:hidden;white-space:nowrap}
+.mf .f.fill{color:var(--fg)}
+.mf .go{height:44px;border-radius:12px;background:var(--a);display:grid;place-items:center;font-weight:700;font-size:14px;transition:transform .2s}
+.mf .go.press{transform:scale(.96)}
+.tgc{background:#17212B;border-radius:18px;padding:14px;opacity:0;transform:translateY(16px) scale(.98);transition:all .55s var(--ease)}
+.tgc .top{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.tgc .av{width:34px;height:34px;border-radius:50%;background:#2AABEE;display:grid;place-items:center;font-weight:800;font-size:13px}
+.tgc .nm{font-weight:700;font-size:14px}.tgc .st{font-size:12px;color:#7D8B99}
+.tgc .m{background:#182533;border:1px solid #233140;border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:14px;line-height:1.5}
+.tgc .m small{display:block;text-align:right;font-size:11px;color:#7D8B99}
+.show{opacity:1!important;transform:none!important}
+.replay{margin-top:28px;background:none;border:0;color:var(--mut);cursor:pointer;font-size:14px}.replay:hover{color:var(--fg)}
+
+/* booking */
+.book{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.book .lead{color:var(--mut);font-size:17px;margin-top:20px;max-width:42ch}
+.book .ph{margin-top:28px;border-radius:22px;overflow:hidden;aspect-ratio:4/3}
+.book .ph img{width:100%;height:100%;object-fit:cover}
+.form{background:var(--s1);border:1px solid var(--line);border-radius:26px;padding:30px}
+.lbl{display:block;font-size:13px;color:var(--mut);margin:18px 0 9px}.lbl:first-child{margin-top:0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips button{height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--tile);cursor:pointer;font-size:15px}
-.chips button.sel{background:var(--a);border-color:var(--a);color:#fff;font-weight:600}
-input{width:100%;height:50px;border-radius:12px;border:1px solid var(--line);background:var(--tile);padding:0 14px;font-size:16px;outline:none}
+.chips button{height:42px;padding:0 15px;border-radius:99px;border:1px solid var(--line);background:var(--s2);cursor:pointer;font-size:14px;transition:background .2s,border-color .2s,transform .2s}
+.chips button:hover{border-color:rgba(255,255,255,.3)}.chips button:active{transform:scale(.97)}
+.chips button.sel{background:var(--fg);color:#0A0A0A;border-color:var(--fg);font-weight:600}
+input{width:100%;height:54px;border-radius:14px;border:1px solid var(--line);background:var(--s2);padding:0 16px;font-size:16px;outline:none;transition:border-color .2s}
 input:focus{border-color:var(--a)}
-form .btn{width:100%;margin-top:18px;height:54px;font-size:17px}
-.hint{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
-.done{display:none}
-.ok .form{display:none}.ok .done{display:block}
-.done .check{width:52px;height:52px;border-radius:50%;background:#1F8F4E;display:grid;place-items:center;font-size:26px;margin-bottom:12px}
-.done h3{font-size:22px;margin-bottom:6px}
-.tgwrap{margin-top:22px;border-top:1px dashed var(--line);padding-top:18px}
-.tgwrap .cap{font-size:13px;color:var(--muted);margin-bottom:10px}
-.tg{background:#17212B;border-radius:18px;padding:14px;max-width:360px}
-.tg .top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.tg .ava{width:36px;height:36px;border-radius:50%;background:var(--tg);display:grid;place-items:center;font-weight:800;font-size:14px}
-.tg .nm{font-weight:700;font-size:15px}.tg .st{font-size:12px;color:#7D8B99}
-.bub{background:#182533;border:1px solid #233140;border-radius:14px 14px 14px 4px;padding:11px 13px;font-size:15px;line-height:1.45}
-.bub b{color:#fff}.bub .t{display:block;text-align:right;font-size:11px;color:#7D8B99;margin-top:4px}
-.tgbtn{display:block;margin-top:8px;background:#2B5278;border-radius:10px;text-align:center;padding:9px;font-size:14px;font-weight:600}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.steps div{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
-.steps i{font-style:normal;color:var(--a);font-weight:800;font-size:13px}
-.steps b{display:block;font-size:18px;margin:6px 0 4px}.steps span{color:var(--muted);font-size:15px}
-.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.fs{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
-.fs i{font-style:normal;color:var(--a);font-weight:800;font-size:13px}
-.fs p{color:var(--muted);font-size:15px}
-.ig{background:#000;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.igm{max-width:88%;padding:9px 12px;border-radius:18px;font-size:14px;line-height:1.4}
-.igm span{display:block;font-size:11px;opacity:.6;margin-top:3px}
-.igm.in{background:#262626;align-self:flex-start}
-.igm.out{background:#3797F0;align-self:flex-end}
-.mini{background:var(--tile);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px}
-.mini span{color:var(--muted);font-size:14px}
-.mini em{font-style:normal;background:var(--a);border-radius:10px;text-align:center;padding:9px;font-weight:700;font-size:14px;margin-top:4px}
-@media(max-width:820px){.flow{grid-template-columns:1fr}}
-footer{padding:36px 0 110px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.form .btn{width:100%;justify-content:center;margin-top:22px}
+.hint{font-size:13px;color:var(--mut);margin-top:12px;text-align:center}
+.done{display:none}.ok .fm{display:none}.ok .done{display:block}
+.done .ck{width:54px;height:54px;border-radius:50%;background:#1E8E4F;display:grid;place-items:center;font-size:26px;margin-bottom:14px}
+.done h3{font-size:30px}.done p{color:var(--mut);margin:8px 0 22px}
+.done .tgc{opacity:1;transform:none;max-width:380px}
+
+footer{border-top:1px solid var(--line);padding:40px 0 120px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:var(--mut);font-size:14px}
 footer b{color:var(--fg)}
-.mcta{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;display:none}
-.mcta .btn{width:100%;box-shadow:0 10px 30px rgba(0,0,0,.6)}
-@media(max-width:820px){
- .hero{min-height:82svh}.hero p{font-size:16px}
- .gal{grid-template-columns:1fr 1fr}
- .book{grid-template-columns:1fr;padding:20px 16px;border-radius:20px;gap:18px}
- .steps{grid-template-columns:1fr}
- .mcta{display:block}
- header .btn.sm{display:none}
+.bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:50;display:none}
+.bar .btn{width:100%;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,.6)}
+
+@media(max-width:900px){
+ .nav ul,.nav .demo{display:none}
+ .hero .wrap{grid-template-columns:1fr;gap:18px;padding-bottom:30px}.hero .side p{font-size:16px}
+ .strip .wrap{grid-template-columns:1fr 1fr}.strip div:nth-child(3){border-left:0;padding-left:0}.strip div{padding:18px 0 18px 18px}.strip b{font-size:26px}
+ section{padding:84px 0}
+ .head{flex-direction:column;align-items:flex-start;margin-bottom:30px}
+ .svc{grid-template-columns:1fr 1fr;gap:10px}.card{aspect-ratio:3/4.3}.card h3{font-size:19px}.card p{display:none}.card .t{left:14px;right:14px;bottom:14px}
+ .wall{grid-template-columns:1fr 1fr;grid-auto-rows:200px;gap:10px}.wall a{grid-column:span 1!important;grid-row:span 1!important}.wall a:nth-child(1),.wall a:nth-child(6){grid-column:span 2!important;grid-row:span 2!important}
+ .stage{grid-template-columns:1fr}.panel{min-height:0}
+ .book{grid-template-columns:1fr;gap:28px}.book .ph{display:none}.form{padding:20px 16px}
+ .bar{display:block}
 }
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero img{transform:none}.hero h1 span b{transform:none}.hero .side{opacity:1}.bub,.tgc{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-<a class="demo" href="#how" style="display:block">Приклад для 2 Brothers · як це працює ↓</a>
-<header><div class="wrap"><a class="logo" href="#">2 Brothers<b>.</b></a><a class="btn sm" href="#book">Залишити заявку</a></div></header>
 
-<section class="hero" style="padding:0">
- <img src="img/lexus.jpg" alt="Lexus в сатиновій антигравійній плівці">
+<nav class="nav" id="nav"><div class="wrap">
+ <a class="mark" href="#"><i>2B</i>2 Brothers</a>
+ <ul><li><a class="ul" href="#services">Послуги</a></li><li><a class="ul" href="#works">Роботи</a></li><li><a class="ul" href="#how">Як працює заявка</a></li><li><a class="ul" href="#book">Контакти</a></li></ul>
+ <span class="demo">Демо для 2 Brothers</span>
+ <a class="btn" href="#book">Залишити заявку</a>
+</div></nav>
+
+<header class="hero">
+ <img src="img/oct2.jpg" alt="Porsche Cayenne у боксі 2 Brothers">
  <div class="wrap">
-  <div class="kick">Детейлінг · Печерськ · Дружби Народів 14/16</div>
-  <h1>Антигравійна плівка, полірування, хімчистка</h1>
-  <p>15 років досвіду і 365 днів гарантії на обклеювання. Залиште заявку за 30 секунд, навіть уночі. Ми передзвонимо.</p>
-  <div class="cta"><a class="btn" href="#book">Залишити заявку →</a><a class="btn ghost" href="tel:+380661411888">066 141 1888</a></div>
-  <div class="facts"><div><b>15 років</b><span>досвіду</span></div><div><b>365 днів</b><span>гарантії на плівку</span></div><div><b>30 сек</b><span>на заявку</span></div></div>
+  <h1><span><b>Плівка,</b></span><span><b>полірування</b></span><span><b>на Печерську.</b></span></h1>
+  <div class="side">
+   <p>Антигравійна і кольорова плівка, кераміка, хімчистка. 15 років досвіду і 365 днів гарантії на обклеювання.</p>
+   <div class="cta"><a class="btn" href="#book">Залишити заявку <span class="ar">→</span></a><a class="btn line" href="tel:+380661411888">066 141 1888</a></div>
+   <div class="rate"><span class="stars">★★★★★</span><b>5.0</b> · 34 відгуки в Google</div>
+  </div>
  </div>
-</section>
+</header>
 
-<section id="how"><div class="wrap">
- <div class="kick">Для 2 Brothers · як це працює</div><h2>Клієнт пише о 22:47. Заявка у вас уже о 22:48</h2>
- <div class="flow">
-  <div class="fs"><i>01 · Instagram Direct</i>
-   <div class="ig">
-    <div class="igm in">Добрий вечір, скільки плівка на капот на Camry?<span>22:47</span></div>
-    <div class="igm out">Дякуємо! Ми зараз не в боксі. Залиште заявку за 30 секунд, передзвонимо вранці 👉 <u>2brothers…/zayavka</u><span>22:47 · автовідповідь</span></div>
-   </div>
-   <p>Людина пише ввечері або з закритого акаунта. Автовідповідь одразу дає їй посилання.</p>
-  </div>
-  <div class="fs"><i>02 · Ця сторінка</i>
-   <div class="mini"><b>Антигравійна плівка</b><span>Toyota Camry · Завтра · +380 67…</span><em>Надіслати заявку</em></div>
-   <p>30 секунд: авто, послуга, коли зручно, телефон. Без переписки і чекання.</p>
-  </div>
-  <div class="fs"><i>03 · Ваш Telegram</i>
-   <div class="bub" style="max-width:none">🔔 <b>Нова заявка</b><br>🚗 Toyota Camry<br>🛠 Антигравійна плівка<br>📅 Завтра<br>📞 +380 67…<span class="t">22:48</span></div>
-   <p>Вранці відкрили, передзвонили, записали. Клієнт не пішов в іншу студію.</p>
-  </div>
+<div class="strip"><div class="wrap">
+ <div><b>15 років</b><span>у детейлінгу</span></div>
+ <div><b>365 днів</b><span>гарантії на плівку</span></div>
+ <div><b>5.0</b><span>рейтинг у Google</span></div>
+ <div><b>30 сек</b><span>щоб залишити заявку</span></div>
+</div></div>
+
+<main>
+<section id="services"><div class="wrap">
+ <div class="head"><div><div class="k">Послуги</div><h2 style="margin-top:16px">Що робимо<br>з вашим авто</h2></div><p>Від захисту кузова до салону, який пахне як новий. Ціну рахуємо після огляду, без сюрпризів.</p></div>
+ <div class="svc">
+  <a class="card" href="#book" data-svc="Антигравійна плівка"><img src="img/lexus.jpg" alt="Lexus у сатиновій плівці" loading="lazy"><span class="n">01</span><div class="t"><h3>Антигравійна плівка</h3><p>Глянцева і сатинова. Гарантія 365 днів.</p></div></a>
+  <a class="card" href="#book" data-svc="Полірування і кераміка"><img src="img/sep1.jpg" alt="Mercedes GLS після полірування" loading="lazy"><span class="n">02</span><div class="t"><h3>Полірування і кераміка</h3><p>Глибокий блиск і захист лаку.</p></div></a>
+  <a class="card" href="#book" data-svc="Антихром і колір"><img src="img/audi.jpg" alt="Audi в антихромі" loading="lazy"><span class="n">03</span><div class="t"><h3>Антихром і колір</h3><p>Чорний декор, дах, дзеркала, повна зміна кольору.</p></div></a>
+  <a class="card" href="#book" data-svc="Хімчистка"><img src="img/chem.jpg" alt="Салон після хімчистки" loading="lazy"><span class="n">04</span><div class="t"><h3>Хімчистка салону</h3><p>Сидіння, стеля, килимки, шкіра.</p></div></a>
  </div>
- <div class="cta" style="margin-top:22px"><a class="btn" href="#book">Спробуйте самі як клієнт ↓</a></div>
- <p class="hint" style="text-align:left;margin-top:10px">Заповніть форму нижче будь-якими даними, і побачите, що саме прийде вам.</p>
 </div></section>
 
 <section id="works" style="padding-top:0"><div class="wrap">
- <div class="kick">Роботи</div><h2>З нашого боксу</h2>
- <div class="gal">
-  <figure><img src="img/lexus.jpg" alt="" loading="lazy"><figcaption>Lexus · сатинова плівка + кераміка</figcaption></figure>
-  <figure><img src="img/audi.jpg" alt="" loading="lazy"><figcaption>Audi · антихром</figcaption></figure>
-  <figure><img src="img/bmw.jpg" alt="" loading="lazy"><figcaption>BMW · заміна кольору</figcaption></figure>
-  <figure><img src="img/chem.jpg" alt="" loading="lazy"><figcaption>Хімчистка салону</figcaption></figure>
+ <div class="head"><div><div class="k">Роботи</div><h2 style="margin-top:16px">З нашого боксу</h2></div><p><a class="ul" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">Більше в Instagram @2brothers_detailing_ →</a></p></div>
+ <div class="wall">
+  <a class="w1" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener"><img src="img/oct1.jpg" alt="BMW X5 у плівці" loading="lazy"></a>
+  <a class="w2" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener"><img src="img/sep2.jpg" alt="Позашляховик у боксі" loading="lazy"></a>
+  <a class="w3" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener"><img src="img/fary.jpg" alt="Шліфування фар" loading="lazy"></a>
+  <a class="w4" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener"><img src="img/bmw.jpg" alt="Мотоцикл BMW після зміни кольору" loading="lazy"></a>
+  <a class="w5" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener"><img src="img/lexus.jpg" alt="Lexus у сатиновій плівці" loading="lazy" style="object-position:50% 45%"></a>
+  <a class="w6" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener"><img src="img/oct2.jpg" alt="Porsche Cayenne" loading="lazy" style="object-position:50% 60%"></a>
  </div>
 </div></section>
 
-<section id="book" style="padding-top:0"><div class="wrap">
- <div class="book" id="bk">
-  <div>
-   <div class="kick">Заявка</div><h2 style="margin-bottom:0">Запис без чекання відповіді в Direct</h2>
-   <p class="note">Вкажіть авто, послугу і коли зручно. Заявка одразу приходить майстру в Telegram, і ми передзвонюємо в робочий час. Навіть якщо у вас закритий акаунт в Instagram.</p>
+<section id="how" class="how"><div class="wrap">
+ <div class="head"><div><div class="k">Для власника · як працює заявка</div><h2 style="margin-top:16px">Клієнт пише о 22:47.<br>Заявка у вас о 22:48.</h2></div><p>Навіть якщо у людини закритий акаунт в Instagram і ви не можете їй відповісти.</p></div>
+ <div class="stage" id="stage">
+  <div class="panel"><div class="lab"><span>Instagram Direct</span><em>22:47</em></div>
+   <div class="bub in" data-s="1">Добрий вечір, скільки плівка на капот на Camry?<small>22:47</small></div>
+   <div class="dots" data-s="2"><i></i><i></i><i></i></div>
+   <div class="bub out" data-s="3">Дякуємо! Ми зараз не в боксі. Залиште заявку за 30 секунд, передзвонимо вранці 👉 2brothers…/zayavka<small>22:47 · автовідповідь</small></div>
+   <p class="d">Відповідь з посиланням приходить одразу, без вашої участі.</p>
   </div>
-  <div>
-   <form class="form" id="f">
-    <span class="lbl">Послуга</span>
-    <div class="chips" data-k="svc">
-     <button type="button" class="sel">Антигравійна плівка</button><button type="button">Полірування</button><button type="button">Нанокераміка</button><button type="button">Хімчистка</button><button type="button">Антихром / колір</button><button type="button">Шумоізоляція</button>
-    </div>
-    <span class="lbl">Коли зручно</span>
-    <div class="chips" data-k="when">
-     <button type="button">Сьогодні</button><button type="button" class="sel">Завтра</button><button type="button">На цьому тижні</button><button type="button">Пізніше</button>
-    </div>
-    <span class="lbl">Авто</span>
-    <input id="car" required placeholder="Напр. BMW X5 2021" autocomplete="off">
-    <span class="lbl">Телефон</span>
-    <input id="tel" required type="tel" placeholder="+380" inputmode="tel">
-    <button class="btn">Надіслати заявку</button>
-    <p class="hint">Без передоплати. Передзвонимо в робочий час.</p>
-   </form>
-   <div class="done">
-    <div class="check">✓</div>
-    <h3>Заявку прийнято</h3>
-    <p style="color:var(--muted)">Майстер уже бачить її в Telegram і передзвонить вам.</p>
-    <div class="tgwrap">
-     <div class="cap">А ось так у цю ж секунду заявка приходить вам у Telegram:</div>
-     <div class="tg">
-      <div class="top"><div class="ava">2B</div><div><div class="nm">2 Brothers · Заявки</div><div class="st">бот</div></div></div>
-      <div class="bub" id="msg"></div>
-      <a class="tgbtn" id="call" href="#">📞 Подзвонити клієнту</a>
-     </div>
-    </div>
-   </div>
+  <div class="panel"><div class="lab"><span>Сторінка заявки</span><em>30 сек</em></div>
+   <div class="mf"><div class="f" data-type="Toyota Camry 2020">Авто</div><div class="f" data-type="Антигравійна плівка">Послуга</div><div class="f" data-type="Завтра, зранку">Коли зручно</div><div class="f" data-type="+380 67 *** ** 12">Телефон</div><div class="go" id="go">Надіслати заявку</div></div>
+   <p class="d">Клієнт сам вказує авто, послугу і коли зручно. Без переписки.</p>
+  </div>
+  <div class="panel"><div class="lab"><span>Ваш Telegram</span><em>22:48</em></div>
+   <div class="tgc" id="tg1"><div class="top"><div class="av">2B</div><div><div class="nm">2 Brothers · Заявки</div><div class="st">бот</div></div></div>
+    <div class="m">🔔 <b>Нова заявка</b><br>🚗 Toyota Camry 2020<br>🛠 Антигравійна плівка<br>📅 Завтра, зранку<br>📞 +380 67 *** ** 12<small>22:48</small></div></div>
+   <p class="d">Вранці відкрили, передзвонили, записали. Клієнт не пішов в іншу студію.</p>
+  </div>
+ </div>
+ <button class="replay" id="replay">↻ Показати ще раз</button>
+</div></section>
+
+<section id="book"><div class="wrap book">
+ <div>
+  <div class="k">Заявка</div>
+  <h2 style="margin-top:16px">Спробуйте<br>як клієнт</h2>
+  <p class="lead">Заповніть форму будь-якими даними. Після відправки побачите, що саме прийде вам у Telegram.</p>
+  <div class="ph"><img src="img/sep1.jpg" alt="Mercedes GLS у боксі" loading="lazy" style="object-position:50% 40%"></div>
+ </div>
+ <div class="form" id="bk">
+  <form class="fm" id="f">
+   <span class="lbl">Послуга</span>
+   <div class="chips" data-k="svc"><button type="button" class="sel">Антигравійна плівка</button><button type="button">Полірування і кераміка</button><button type="button">Антихром і колір</button><button type="button">Хімчистка</button><button type="button">Шумоізоляція</button></div>
+   <span class="lbl">Коли зручно</span>
+   <div class="chips" data-k="when"><button type="button">Сьогодні</button><button type="button" class="sel">Завтра</button><button type="button">Цього тижня</button><button type="button">Пізніше</button></div>
+   <label class="lbl" for="car">Авто</label><input id="car" required placeholder="Напр. BMW X5 2021" autocomplete="off">
+   <label class="lbl" for="tel">Телефон</label><input id="tel" required type="tel" placeholder="+380" inputmode="tel">
+   <button class="btn">Надіслати заявку <span class="ar">→</span></button>
+   <p class="hint">Без передоплати. Передзвонимо в робочий час.</p>
+  </form>
+  <div class="done">
+   <div class="ck">✓</div><h3>Заявку прийнято</h3><p>Ось так у цю ж секунду вона приходить вам у Telegram:</p>
+   <div class="tgc"><div class="top"><div class="av">2B</div><div><div class="nm">2 Brothers · Заявки</div><div class="st">бот</div></div></div><div class="m" id="msg"></div></div>
   </div>
  </div>
 </div></section>
+</main>
 
-
-<footer><div class="wrap"><b>2 Brothers Detailing</b> · бул. Дружби Народів 14/16, Київ · <a href="tel:+380661411888">066 141 1888</a> · <a href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">@2brothers_detailing_</a></div></footer>
-<div class="mcta"><a class="btn" href="#book">Залишити заявку за 30 секунд</a></div>
+<footer><div class="wrap"><div><b>2 Brothers Detailing</b> · бул. Дружби Народів, Печерськ</div><div><a class="ul" href="tel:+380661411888">066 141 1888</a> · <a class="ul" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">@2brothers_detailing_</a> · <a class="ul" href="https://2brothers-detailing.kiev.ua" target="_blank" rel="noopener">2brothers-detailing.kiev.ua</a></div></div></footer>
+<div class="bar" id="bar"><a class="btn" href="#book">Залишити заявку за 30 секунд</a></div>
 
 <script>
+const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('on',scrollY>40),{passive:true});
 document.querySelectorAll('.chips').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;g.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')}));
+document.querySelectorAll('[data-svc]').forEach(c=>c.addEventListener('click',()=>{const v=c.dataset.svc;document.querySelectorAll('[data-k="svc"] button').forEach(b=>b.classList.toggle('sel',b.textContent===v))}));
 const pick=k=>document.querySelector('[data-k="'+k+'"] .sel').textContent;
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();
- const car=document.getElementById('car').value.trim(),tel=document.getElementById('tel').value.trim();
- const t=new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
- const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
- document.getElementById('msg').innerHTML='🔔 <b>Нова заявка</b><br>🚗 Авто: <b>'+esc(car)+'</b><br>🛠 Послуга: <b>'+esc(pick('svc'))+'</b><br>📅 Коли: <b>'+esc(pick('when'))+'</b><br>📞 Телефон: <b>'+esc(tel)+'</b><span class="t">'+t+'</span>';
- document.getElementById('call').href='tel:'+tel.replace(/[^\d+]/g,'');
- document.getElementById('bk').classList.add('ok');
- document.querySelector('.mcta').style.display='none';
- document.getElementById('bk').scrollIntoView({behavior:'smooth',block:'start'});
+ const car=document.getElementById('car').value.trim(),tel=document.getElementById('tel').value.trim(),t=new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
+ document.getElementById('msg').innerHTML='🔔 <b>Нова заявка</b><br>🚗 '+esc(car)+'<br>🛠 '+esc(pick('svc'))+'<br>📅 '+esc(pick('when'))+'<br>📞 '+esc(tel)+'<small>'+t+'</small>';
+ document.getElementById('bk').classList.add('ok');document.getElementById('bar').style.display='none';
+ document.getElementById('bk').scrollIntoView({behavior:'smooth',block:'center'});
 });
+/* the one moment: the evening request plays through once when its section is reached */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const S=document.getElementById('stage'),wait=ms=>new Promise(r=>setTimeout(r,ms));
+let playing=false;
+S.querySelectorAll('.f').forEach(f=>f.dataset.label=f.textContent);
+async function type(el,txt){el.classList.add('fill');el.textContent='';for(const ch of txt){el.textContent+=ch;await wait(28)}}
+async function play(){if(playing)return;playing=true;
+ S.querySelectorAll('.bub,.tgc').forEach(x=>x.classList.remove('show'));S.querySelectorAll('.f').forEach(f=>{f.classList.remove('fill');f.textContent=f.dataset.label});
+ const [b1,b2]=S.querySelectorAll('.bub'),d=S.querySelector('.dots');
+ await wait(300);b1.classList.add('show');await wait(700);d.style.display='flex';await wait(900);d.style.display='none';b2.classList.add('show');
+ await wait(800);for(const f of S.querySelectorAll('.f'))await type(f,f.dataset.type);
+ const g=document.getElementById('go');g.classList.add('press');await wait(180);g.classList.remove('press');
+ await wait(450);document.getElementById('tg1').classList.add('show');playing=false}
+if(reduce){S.querySelectorAll('.bub,.tgc').forEach(x=>x.classList.add('show'));S.querySelectorAll('.f').forEach(f=>{f.classList.add('fill');f.textContent=f.dataset.type})}
+else{new IntersectionObserver((es,o)=>es.forEach(x=>{if(x.isIntersecting){play();o.disconnect()}}),{threshold:.45}).observe(S)}
+document.getElementById('replay').addEventListener('click',play);
 </script>
 </body>
 </html>
