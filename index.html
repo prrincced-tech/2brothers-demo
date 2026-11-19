@@ -168,6 +168,7 @@ document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();
  document.getElementById('msg').innerHTML='🔔 <b>Нова заявка</b><br>🚗 Авто: <b>'+esc(car)+'</b><br>🛠 Послуга: <b>'+esc(pick('svc'))+'</b><br>📅 Коли: <b>'+esc(pick('when'))+'</b><br>📞 Телефон: <b>'+esc(tel)+'</b><span class="t">'+t+'</span>';
  document.getElementById('call').href='tel:'+tel.replace(/[^\d+]/g,'');
  document.getElementById('bk').classList.add('ok');
+ document.querySelector('.mcta').style.display='none';
  document.getElementById('bk').scrollIntoView({behavior:'smooth',block:'start'});
 });
 </script>
