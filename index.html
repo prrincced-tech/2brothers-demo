@@ -205,7 +205,7 @@ footer b{color:var(--fg)}
  .book{grid-template-columns:1fr;gap:28px}.book .ph{display:none}.form{padding:20px 16px}
  .bar{display:block}
  .say{padding:72px 0}
- .idx{grid-template-columns:1fr;gap:20px}.frame{min-height:0;aspect-ratio:4/4.6}
+ .idx{grid-template-columns:1fr;gap:0}.frame{min-height:0;aspect-ratio:4/3.4;grid-column:1/-1;margin-top:14px;border-radius:18px}
  .list li{grid-template-columns:34px 1fr;padding:20px 2px}.list .go{grid-column:2;justify-self:start}
  .map{height:auto;display:flex;flex-direction:column}
  .map__frame{position:relative;top:-200px;left:-320px;width:calc(100% + 640px);height:calc(58vh + 200px);margin-bottom:-200px}
@@ -369,7 +369,10 @@ else{new IntersectionObserver((es,o)=>es.forEach(x=>{if(x.isIntersecting){play()
 document.getElementById('replay').addEventListener('click',play);
 /* services index: hover on desktop, tap on phone */
 const frame=document.getElementById('frame'),rows=[...document.querySelectorAll('.list li')],imgs=[...frame.querySelectorAll('img')];
-function act(li){rows.forEach(r=>r.classList.toggle('on',r===li));imgs.forEach(im=>im.classList.toggle('on',im.dataset.i===li.dataset.i));frame.classList.add('lit');
+const mob=matchMedia('(max-width:900px)'),idx=document.querySelector('.idx');
+function place(li){if(mob.matches){if(frame.parentNode!==li)li.appendChild(frame)}else if(frame.parentNode!==idx)idx.prepend(frame)}
+place(rows[0]);mob.addEventListener('change',()=>place(document.querySelector('.list li.on')));
+function act(li){place(li);rows.forEach(r=>r.classList.toggle('on',r===li));imgs.forEach(im=>im.classList.toggle('on',im.dataset.i===li.dataset.i));frame.classList.add('lit');
  const v=li.dataset.svc;document.querySelectorAll('[data-k="svc"] button').forEach(b=>b.classList.toggle('sel',b.textContent===v))}
 rows.forEach(li=>{li.addEventListener('mouseenter',()=>act(li));li.addEventListener('click',()=>act(li));li.addEventListener('focus',()=>act(li));li.addEventListener('keydown',e=>{if(e.key==='Enter')li.querySelector('.go').click()})});
 frame.addEventListener('mouseleave',()=>frame.classList.remove('lit'));
