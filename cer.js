@@ -112,11 +112,12 @@ async function go() {
   const beads = new T.InstancedMesh(bg, water, NB), pud = new T.InstancedMesh(pg, water.clone(), NP);
   beads.frustumCulled = pud.frustumCulled = false; pud.material.envMapIntensity = 2.2; pud.material.thickness = .004; S.add(beads, pud);
   const B = [], P = [], rnd = (a, b) => a + Math.random() * (b - a), q = {};
-  let rolled = 0;
-  function drop() {
-    const x = rnd(-fx, fx), z = rnd(-fz, fz);
+  let rolled = 0, dry = 0;
+  function drop(px, pz) {
+    const x = px ?? rnd(-fx, fx), z = pz ?? rnd(-fz, fz);
     if (!sam(x, z, q) || q.ny < .6 || Math.abs(x) < .02 || edge(x, z, q.h)) return;
     if (x < 0) {
+      if (dry > 0 && px === undefined) return;
       if (B.length < NB) B.push({ x, z, vx: 0, vz: 0, r: rnd(.011, .03), a: 0, f: 0, y: q.h, vy: 0, nx: q.nx, ny: q.ny, nz: q.nz });
     } else {
       for (const p of P) if (Math.hypot(p.x - x, p.z - z) < p.r * 1.1 + .025) { p.g = Math.min(.16, p.g + .008); return; }
@@ -126,19 +127,78 @@ async function go() {
   for (let i = 0; i < (mob ? 2600 : 4200); i++) drop();
   B.forEach(b => b.a = 1); P.forEach(p => p.r = p.g);
 
-  // ---------- camera & input ----------
-  const tgt = new T.Vector3(0, box.max.y * .42, box.max.z * .18);
-  let az = .35, el = .42, taz = az, tel = el, down = false, lx = 0, ly = 0, last = -1e9, wash = 0;
-  st.addEventListener('pointerdown', e => { if (e.target.closest('button,a')) return; down = true; lx = e.clientX; ly = e.clientY; last = performance.now(); });
+  // ---------- camera, scroll story & input ----------
+  const tr = document.getElementById('cerTrack');
+  const hz = box.max.z * .42, hh = x => (sam(x, hz, q) ? q.h : box.max.y * .6);
+  const K = [
+    { t: new T.Vector3(0, box.max.y * .42, box.max.z * .18), az: .35, el: .42, d: 0 },
+    { t: new T.Vector3(-.5, hh(-.5), hz), az: -.6, el: .5, d: mob ? 4.2 : 3.5 },
+    { t: new T.Vector3(.5, hh(.5), hz), az: .6, el: .5, d: mob ? 4.2 : 3.5 },
+    { t: new T.Vector3(0, box.max.y * .42, box.max.z * .05), az: -.15, el: .5, d: 0 },
+  ];
+  const TX = [
+    ['01 — Дощ', 'вода<br>скочується сама', 'ліворуч від стрічки кераміка, праворуч голий лак. гортай далі або проведи по авто, щоб пішов дощ.'],
+    ['02 — Кераміка', 'вода збирається<br>в кульки', 'гідрофобний шар не дає воді зачепитись. кульки скочуються навіть із ледь похилого капота і забирають бруд із собою.'],
+    ['03 — Голий лак', 'а тут вона<br>лежить плямами', 'без захисту вода розтікається і висихає на місці. звідси вапняні плями і матовий наліт після кожної мийки.'],
+    ['04 — Мийка', 'одна мийка —<br>і все видно', 'ліва половина вже суха, права ні. проведи по авто, щоб полити ще, або запишись на кераміку.'],
+  ];
+  const sw = document.getElementById('cSw'), eS = document.getElementById('cStep'), eH = document.getElementById('cH'), eP = document.getElementById('cP'), rail = [...st.querySelectorAll('.rail span')];
+  let step = 0, uaz = 0, uel = 0, down = false, lx = 0, ly = 0, last = -1e9, wash = 0, swT = 0;
+  function setStep(k) {
+    if (k === step) return; const prev = step; step = k;
+    rail.forEach((r, i) => r.classList.toggle('on', i === k));
+    sw.classList.add('out'); clearTimeout(swT);
+    swT = setTimeout(() => { eS.textContent = TX[k][0]; eH.innerHTML = TX[k][1]; eP.textContent = TX[k][2]; sw.classList.remove('out'); }, 300);
+    if (k === 3 && prev < 3) wash = 1.8;
+    if (k < 3 && prev === 3) for (let i = 0; i < (mob ? 1400 : 2200); i++) drop();
+  }
+  const ray = new T.Raycaster(), ndc = new T.Vector2(), pp = new T.Vector3();
+  function rain(cx, cy, n) {
+    const r = st.getBoundingClientRect(); ndc.set((cx - r.left) / r.width * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, C); const o0 = ray.ray.origin, d = ray.ray.direction;
+    for (let t = .3; t < 25; t += .012) {
+      pp.copy(d).multiplyScalar(t).add(o0);
+      if (pp.y < 0) return;
+      if (Math.abs(pp.x) < fx && Math.abs(pp.z) < fz && sam(pp.x, pp.z, q) && pp.y <= q.h + .003) {
+        const hx = pp.x, hzz = pp.z;
+        for (let i = 0; i < n; i++) drop(hx + rnd(-.07, .07), hzz + rnd(-.07, .07));
+        return;
+      }
+    }
+  }
+  let lastRain = 0;
+  st.addEventListener('pointerdown', e => { if (e.target.closest('button,a')) return; down = true; lx = e.clientX; ly = e.clientY; last = performance.now(); rain(e.clientX, e.clientY, e.pointerType === 'mouse' ? 6 : 12); });
   addEventListener('pointerup', () => down = false); addEventListener('pointercancel', () => down = false);
   st.addEventListener('pointermove', e => {
+    const n = performance.now();
+    if (n - lastRain > 35) { lastRain = n; rain(e.clientX, e.clientY, 3); }
     if (!down) return;
-    taz = Math.max(-1.25, Math.min(1.25, taz - (e.clientX - lx) * .006));
-    if (e.pointerType === 'mouse') tel = Math.max(.16, Math.min(.85, tel + (e.clientY - ly) * .004));
-    lx = e.clientX; ly = e.clientY; last = performance.now();
+    uaz = Math.max(-1.1, Math.min(1.1, uaz - (e.clientX - lx) * .006));
+    if (e.pointerType === 'mouse') uel = Math.max(-.25, Math.min(.35, uel + (e.clientY - ly) * .004));
+    lx = e.clientX; ly = e.clientY; last = n;
   });
   const wb = document.getElementById('cerWash');
   wb.addEventListener('click', () => { wash = 1.8; wb.classList.add('on'); setTimeout(() => wb.classList.remove('on'), 1800); });
+  const ease = f => f * f * (3 - 2 * f), wide = () => mob ? 6.4 / Math.min(1, C.aspect * 1.6) : 8.6 / Math.min(1, C.aspect * .75);
+  const tg = new T.Vector3(), tA = new T.Vector3();
+  let az = .35, el = .42, dist = 8, first = true;
+  function cam(n, dt) {
+    const r = tr.getBoundingClientRect(), span = Math.max(1, r.height - innerHeight);
+    const pr = Math.max(0, Math.min(1, -r.top / span)), s = pr * 3, i = Math.min(2, Math.floor(s));
+    const f = ease(Math.max(0, Math.min(1, (s - i - .15) / .7)));
+    setStep(Math.min(3, Math.floor(s + .35)));
+    const a = K[i], b = K[i + 1], da = a.d || wide(), db = b.d || wide();
+    tA.lerpVectors(a.t, b.t, f);
+    let taz = a.az + (b.az - a.az) * f, tel = a.el + (b.el - a.el) * f;
+    const td = da + (db - da) * f;
+    if (!down && n - last > 3000) { uaz *= .97; uel *= .97; }
+    if (!still) taz += .08 * Math.sin(n / 4200);
+    taz += uaz; tel += uel;
+    const k = first ? 1 : 1 - Math.pow(.015, dt); first = false;
+    tg.lerp(tA, k); az += (taz - az) * k; el += (tel - el) * k; dist += (td - dist) * k;
+    C.position.set(tg.x + Math.sin(az) * Math.cos(el) * dist, tg.y + Math.sin(el) * dist, tg.z + Math.cos(az) * Math.cos(el) * dist);
+    C.lookAt(tg);
+  }
 
   function size() {
     const w = st.clientWidth, h = st.clientHeight; R.setSize(w, h, false); C.aspect = w / h;
@@ -150,18 +210,15 @@ async function go() {
 
   // ---------- loop ----------
   const o = new T.Object3D(), UP = new T.Vector3(0, 1, 0), nv = new T.Vector3(), qr = new T.Quaternion();
-  const eN = document.getElementById('cN'), eR = document.getElementById('cR'), eA = document.getElementById('cA');
+  const eN = document.getElementById('cL'), eR = document.getElementById('cRt'), eA = document.getElementById('cA');
   let pt = performance.now(), acc = 0;
   ld.classList.add('off'); setTimeout(() => ld.style.display = 'none', 700);
   function frame(n) {
     requestAnimationFrame(frame); if (!on) { pt = n; return; }
     const dt = Math.min(.05, (n - pt) / 1000); pt = n;
-    if (!down && n - last > 3000 && !still) { taz = .55 * Math.sin(n / 5200); tel = .42 + .06 * Math.sin(n / 7100); }
-    az += (taz - az) * .06; el += (tel - el) * .06;
-    const dist = mob ? 6.4 / Math.min(1, C.aspect * 1.6) : 8.6 / Math.min(1, C.aspect * .75);
-    C.position.set(tgt.x + Math.sin(az) * Math.cos(el) * dist, tgt.y + Math.sin(el) * dist, tgt.z + Math.cos(az) * Math.cos(el) * dist);
-    C.lookAt(tgt);
+    cam(n, dt);
 
+    if (wash > 0) dry = 3.5; else dry = Math.max(0, dry - dt);
     wash = Math.max(0, wash - dt);
     acc += dt * (wash > 0 ? (mob ? 160 : 260) : (still ? 0 : (mob ? 10 : 16)));
     while (acc > 1) { acc--; drop(); }
@@ -176,7 +233,7 @@ async function go() {
       if (!sam(d.x, d.z, q) || q.ny < .5) { d.f = 1; rolled++; continue; }
       const sl = Math.hypot(q.nx, q.nz);
       if (wash > 0 || sl > .16) {
-        const k = wash > 0 ? 2.2 : 3.2, dx = sl > .02 ? q.nx / sl : 0, dz = sl > .02 ? q.nz / sl : 1;
+        const k = wash > 0 ? 4 : 3.2, dx = sl > .02 ? q.nx / sl : 0, dz = sl > .02 ? q.nz / sl : 1;
         d.vx += (wash > 0 ? dx * k : q.nx * k) * dt; d.vz += (wash > 0 ? dz * k : q.nz * k) * dt;
       } else { d.vx *= .8; d.vz *= .8; }
       d.vx *= Math.pow(.25, dt); d.vz *= Math.pow(.25, dt);
@@ -208,8 +265,8 @@ async function go() {
     });
     beads.count = B.length; pud.count = P.length; beads.instanceMatrix.needsUpdate = pud.instanceMatrix.needsUpdate = true;
     R.render(S, C);
-    eN.textContent = String(B.length + P.length).padStart(4, '0');
-    eR.textContent = String(rolled).padStart(4, '0');
+    eN.textContent = String(B.filter(d => !d.f).length).padStart(3, '0');
+    eR.textContent = String(P.length).padStart(3, '0');
     eA.textContent = String(Math.round(Math.abs(az) * 57.3)).padStart(2, '0') + '°';
   }
   requestAnimationFrame(frame);
