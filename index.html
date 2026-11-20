@@ -458,7 +458,7 @@ const N=mob?160:240,M=mob?40:60,sg=new T.SphereGeometry(1,mob?14:20,mob?10:14);
 const beads=new T.InstancedMesh(sg,dm,N),sheets=new T.InstancedMesh(sg,pmat,M);hood.add(beads,sheets);
 const B=[],P=[],o=new T.Object3D(),rnd=(a,b)=>a+Math.random()*(b-a);
 function add(x,z){if(x<0){if(B.length>=N)B.shift();B.push({x,z,vx:0,vz:0,r:rnd(.035,.09),a:0})}else{if(P.length>=M)P.shift();P.push({x,z,vx:0,vz:0,r:rnd(.06,.1),s:1,a:0,q:rnd(0,3.14),e:rnd(.7,1.4)})}}
-const zx=()=>rnd(-V/2,V/2),zz=()=>rnd(-D/2.6,D/2.6);for(let i=0;i<(mob?120:180);i++)add(-rnd(.1,V/2),zz());for(let i=0;i<(mob?22:30);i++)add(rnd(.15,V/2),zz());
+const zx=()=>rnd(-V/2,V/2),Z=mobV?1.7:D/2.6,zz=()=>rnd(-Z,Z);for(let i=0;i<(mob?120:180);i++)add(-rnd(.1,V/2),zz());for(let i=0;i<(mob?22:30);i++)add(rnd(.15,V/2),zz());
 P.forEach(p=>p.s=rnd(1.5,2.6));
 let tx=0,ty=0,gx=0,gy=0,last=-1e9,down=false;
 const aim=e=>{const r=st.getBoundingClientRect();gx=((e.clientX-r.left)/r.width-.5)*2;gy=((e.clientY-r.top)/r.height-.5)*2;last=performance.now()};
@@ -471,12 +471,12 @@ let vis=true,rain=0,pt=performance.now();new IntersectionObserver(([e])=>vis=e.i
 function frame(n){requestAnimationFrame(frame);if(!vis)return;const dt=Math.min(.05,(n-pt)/1000);pt=n;
 if(n-last>2500&&!still){gx=Math.sin(n/2300)**3*.9;gy=Math.sin(n/3100)**3*.5}
 tx+=(gx-tx)*.07;ty+=(gy-ty)*.07;hood.rotation.z=-tx*.16;hood.rotation.x=ty*.1;
-rain+=dt;if(!still&&rain>(mob?.08:.05)){rain=0;add(zx(),zz())}
+rain+=dt;if(!still&&rain>(mob?.08:.05)){rain=0;add(zx(),zz());add(-rnd(.1,V/2),zz())}
 const k=dt*60;
 for(let i=B.length-1;i>=0;i--){const d=B[i];d.a=Math.min(1,d.a+dt*5);const g=Math.hypot(tx,ty);if(g>.42){d.vx+=tx*.0009*k;d.vz+=ty*.0009*k}else{d.vx*=.8;d.vz*=.8}d.vx*=.975;d.vz*=.975;d.x+=d.vx*k;d.z+=d.vz*k;
-if(d.x>-.05||d.x<-V/2-.6||Math.abs(d.z)>D/2.6+.6)B.splice(i,1)}
+if(d.x>-.05||d.x<-V/2-.6||Math.abs(d.z)>Z+.6)B.splice(i,1)}
 for(let i=P.length-1;i>=0;i--){const d=P[i];d.a=Math.min(1,d.a+dt*4);d.s=Math.min(3.2,d.s+dt*.35);if(Math.abs(tx)>.55){d.vx+=tx*.00012*k}if(Math.abs(ty)>.55){d.vz+=ty*.00012*k}d.vx*=.9;d.vz*=.9;d.x+=d.vx*k;d.z+=d.vz*k;
-if(d.x<.12){d.x=.12}if(d.x>V/2+.6||Math.abs(d.z)>D/2.6+.6)P.splice(i,1)}
+if(d.x<.12){d.x=.12}if(d.x>V/2+.6||Math.abs(d.z)>Z+.6)P.splice(i,1)}
 B.forEach((d,i)=>{const r=d.r*(.4+.6*d.a);o.position.set(d.x,crown(d.x)+r*.55,d.z);o.scale.set(r,r*.78,r);o.rotation.set(0,0,0);o.updateMatrix();beads.setMatrixAt(i,o.matrix)});
 P.forEach((d,i)=>{const r=d.r*d.s*(.4+.6*d.a);o.position.set(d.x,crown(d.x)+.008,d.z);o.rotation.set(0,d.q,0);o.scale.set(r*d.e,.012,r/d.e);o.updateMatrix();sheets.setMatrixAt(i,o.matrix)});
 beads.count=B.length;sheets.count=P.length;beads.instanceMatrix.needsUpdate=sheets.instanceMatrix.needsUpdate=true;
