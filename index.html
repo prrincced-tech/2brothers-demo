@@ -293,6 +293,46 @@ img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-
  .map{height:600px;display:block}.map__frame{position:absolute;top:-170px;left:-200px;width:calc(100% + 400px);height:calc(100% + 170px);margin:0}
  .map__unlock{top:14px;right:14px;bottom:auto}.map__wrap{position:absolute;inset:auto 0 0 0;height:auto;padding:0 14px 16px;margin:0}
  .map__card{padding:18px;border-radius:18px;gap:10px}.map__card h2{font-size:30px}.map__addr{font-size:15px}.map__card .btn{height:46px}}
+
+/* ---- ppf configurator, reviews, faq, gift ---- */
+.pc .m,.rvw .m,.faq .m,.gift .m,.msgr .m,.pick .m{font:400 11px/1.4 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.ppf .pc{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:56px;align-items:center}
+.pc__car{position:relative;display:grid;place-items:center;padding:28px 20px 44px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(70% 60% at 50% 40%,#1d1f23,#141517)}
+.car{width:min(100%,250px);height:auto;overflow:visible;-webkit-tap-highlight-color:transparent}
+.car .bd{fill:#17181b;stroke:rgba(237,234,228,.3);stroke-width:1}.car .gl{fill:#0b0c0e;stroke:rgba(237,234,228,.1);pointer-events:none}
+.car .z{fill:rgba(237,234,228,.035);stroke:rgba(237,234,228,.2);stroke-width:.8;cursor:pointer;transition:fill .45s var(--ease),stroke .45s}
+.car .z:hover{fill:rgba(237,234,228,.12)}.car .z.c{fill:rgba(216,54,60,.45);stroke:#EC4C52}
+.pc__leg{position:absolute;left:20px;bottom:16px;display:flex;align-items:center;gap:8px}.pc__leg i{width:10px;height:10px;border-radius:3px;border:1px solid rgba(237,234,228,.3)}.pc__leg i+i{margin-left:10px}.pc__leg i.on{background:rgba(216,54,60,.55);border-color:#EC4C52}
+.pc__tabs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.pc__tabs button{all:unset;box-sizing:border-box;cursor:pointer;padding:14px 14px 12px;display:grid;gap:5px;border-right:1px solid var(--line);transition:background .25s,color .25s}.pc__tabs button:last-child{border-right:0}
+.pc__tabs b{font:400 16px/1.1 'Inter Tight',sans-serif;letter-spacing:-.01em}.pc__tabs span{font:400 10px/1.2 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.pc__tabs button.on{background:var(--fg);color:#121315}.pc__tabs button.on span{color:rgba(18,19,21,.55)}.pc__tabs button:focus-visible,.pc__cls button:focus-visible{outline:1px solid var(--a);outline-offset:-3px}
+.pc.custom .pc__tabs button.on{background:transparent;color:inherit}.pc.custom .pc__tabs button.on span{color:var(--mut)}
+.pc__cls{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap}.pc__cls button{all:unset;cursor:pointer;padding:0 14px;height:36px;line-height:36px;border:1px solid var(--line);border-radius:99px;transition:border-color .2s,color .2s}.pc__cls button.on{border-color:rgba(237,234,228,.6);color:var(--fg)}
+.pc__price{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:30px 0 4px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.pc__price div{display:flex;align-items:baseline;gap:8px}.pc__price b{font:300 clamp(64px,8vw,108px)/.85 'Inter Tight',sans-serif;letter-spacing:-.05em;font-variant-numeric:tabular-nums}.pc__price small{font:400 13px 'JetBrains Mono',monospace;color:var(--mut)}
+.pc__list{list-style:none;columns:2;column-gap:28px;padding:14px 0 0;margin:0;min-height:150px}.pc__list li{break-inside:avoid;display:flex;gap:12px;align-items:center;padding:7px 0;font-size:15px;color:#D9D5CF;animation:pcIn .4s var(--ease) both}.pc__list li:before{content:"";flex:none;width:14px;height:1px;background:var(--a)}
+@keyframes pcIn{from{opacity:0;transform:translateX(-6px)}}
+.pc__act{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:24px}.pc__note{max-width:32ch;font-size:10px!important;line-height:1.6!important}
+.rvw__g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.rvw__c{margin:0;background:var(--bg);padding:30px;display:flex;flex-direction:column;gap:18px}.rvw__s{color:#E8B04B;letter-spacing:.25em;font-size:12px}
+.rvw__c blockquote{margin:0;font:300 19px/1.45 'Inter Tight',sans-serif;letter-spacing:-.01em;color:#E6E2DC;flex:1}.rvw__c figcaption{display:grid;gap:4px}.rvw__c figcaption b{font-size:15px}.rvw__c .m{font-size:10px}
+.faq__l{border-top:1px solid var(--line)}.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:26px 0;font:300 clamp(20px,2.4vw,30px)/1.2 'Inter Tight',sans-serif;letter-spacing:-.02em;transition:color .2s}.faq summary:hover{color:#fff}
+.faq summary::-webkit-details-marker{display:none}.faq summary:focus-visible{outline:1px solid var(--a);outline-offset:4px}
+.faq summary i{position:relative;width:16px;height:16px;flex:none}.faq summary i:before,.faq summary i:after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--fg);transition:transform .35s var(--ease)}.faq summary i:after{transform:rotate(90deg)}.faq details[open] summary i:after{transform:rotate(0)}
+.faq details p{margin:-6px 0 26px;max-width:62ch;color:var(--mut);font-size:16px;line-height:1.65;animation:pcIn .4s var(--ease)}
+.gift{margin-top:64px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:34px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(115deg,rgba(216,54,60,.14),rgba(216,54,60,0) 55%)}
+.gift h3{font-size:clamp(26px,3vw,40px);margin:10px 0 8px}.gift p{color:var(--mut);max-width:46ch;margin:0}
+.pick{display:flex;align-items:center;gap:12px;padding:10px 6px 10px 14px;border:1px solid rgba(216,54,60,.55);border-radius:12px;margin:6px 0 14px}.pick b{font-size:14px;flex:1}.pick button{all:unset;cursor:pointer;width:36px;height:36px;text-align:center;line-height:36px;color:var(--mut);font-size:20px}.pick[hidden]{display:none}
+.msgr{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}.msgr .m{margin-right:4px}.msgr a{font-size:14px;height:40px;line-height:40px;padding:0 16px;border:1px solid var(--line);border-radius:99px;transition:border-color .2s}.msgr a:hover{border-color:rgba(237,234,228,.5)}
+.map__contact{grid-template-columns:1fr 1fr 1fr}.mm__in a{font-size:30px;padding:10px 0}
+@media(max-width:900px){.ppf .pc{grid-template-columns:1fr;gap:18px}.pc__car{padding:14px 12px 36px}.car{width:min(40vw,170px)}
+ .pc__tabs{grid-template-columns:1fr 1fr}.pc__tabs button:nth-child(2){border-right:0}.pc__tabs button:nth-child(-n+2){border-bottom:1px solid var(--line)}
+ .pc__list{columns:1;min-height:0}.pc__price{margin-top:22px}.pc__price b{font-size:68px}
+ .rvw__g{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;background:none;border:0;border-radius:0;margin:0 -16px;padding:0 16px 6px;scrollbar-width:none}.rvw__g::-webkit-scrollbar{display:none}
+ .rvw__c{flex:0 0 84%;scroll-snap-align:center;border:1px solid var(--line);border-radius:18px;padding:22px}.rvw__c blockquote{font-size:16px}
+ .gift{padding:24px;margin-top:44px}.map__contact .btn{font-size:13px;padding:0 6px}}
 @media(prefers-reduced-motion:reduce){.rev,img.rev{opacity:1;transform:none;clip-path:none;transition:none}.curtain{display:none}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
@@ -301,12 +341,12 @@ img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-
 
 <nav class="nav" id="nav"><div class="wrap">
  <a class="mark" href="#"><i>2B</i>2 Brothers</a>
- <ul><li><a class="ul" href="#services">Послуги</a></li><li><a class="ul" href="#works">Роботи</a></li><li><a class="ul" href="#how">Як працює заявка</a></li><li><a class="ul" href="#map">Контакти</a></li></ul>
+ <ul><li><a class="ul" href="#services">Послуги</a></li><li><a class="ul" href="#ppf">Плівка</a></li><li><a class="ul" href="#works">Роботи</a></li><li><a class="ul" href="#reviews">Відгуки</a></li><li><a class="ul" href="#map">Контакти</a></li></ul>
  <span class="demo">Демо для 2 Brothers</span>
  <a class="btn" href="#book">Залишити заявку</a>
  <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false"><i></i><i></i></button>
 </div></nav>
-<div class="mm" id="mm" aria-hidden="true"><nav class="mm__in"><a href="#services"><span>01</span>Послуги</a><a href="#ceramic"><span>02</span>Кераміка</a><a href="#works"><span>03</span>Роботи</a><a href="#how"><span>04</span>Як працює заявка</a><a href="#map"><span>05</span>Контакти</a></nav><div class="mm__ft"><a class="btn" href="#book">Залишити заявку</a><div class="m"><a href="tel:+380661411888">066 141 1888</a> · <a href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">Instagram</a></div></div></div>
+<div class="mm" id="mm" aria-hidden="true"><nav class="mm__in"><a href="#services"><span>01</span>Послуги</a><a href="#ppf"><span>02</span>Плівка</a><a href="#ceramic"><span>03</span>Кераміка</a><a href="#works"><span>04</span>Роботи</a><a href="#reviews"><span>05</span>Відгуки</a><a href="#faq"><span>06</span>Питання</a><a href="#map"><span>07</span>Контакти</a></nav><div class="mm__ft"><a class="btn" href="#book">Залишити заявку</a><div class="m"><a href="tel:+380661411888">066 141 1888</a> · <a href="https://t.me/TwoBrothersDet" target="_blank" rel="noopener">Telegram</a> · <a href="viber://chat?number=%2B380661411888">Viber</a> · <a href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">Instagram</a></div></div></div>
 
 <header class="hero">
  <img src="img/oct2.jpg" alt="Porsche Cayenne у боксі 2 Brothers">
@@ -369,6 +409,25 @@ img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-
 </div>
 </section>
 
+<section id="ppf" class="ppf"><div class="wrap">
+ <div class="head"><div><div class="k">Антигравійна плівка</div><h2 style="margin-top:16px"><span class="rv"><b>Оберіть, що захистити.</b></span><span class="rv"><b>Ціну видно одразу.</b></span></h2></div><p>Натисніть пакет або самі позначте деталі на схемі. Кожна окрема деталь від 99$.</p></div>
+ <div class="pc">
+  <div class="pc__car"><svg class="car" viewBox="0 -4 240 486" role="img" aria-label="Схема авто зверху: підсвічені зони обклеювання"><path class="bd" d="M60 18 Q120 0 180 18 L198 60 Q206 120 204 200 L206 380 Q206 440 182 464 Q120 480 58 464 Q34 440 34 380 L36 200 Q34 120 42 60 Z"/><path class="gl" d="M76 152 Q120 146 164 152 L156 196 Q120 192 84 196 Z"/><path class="gl" d="M84 312 Q120 316 156 312 L162 352 Q120 356 78 352 Z"/><path class="z" data-z="bumperF" d="M62 22 Q120 6 178 22 L192 52 Q120 42 48 52 Z"/><path class="z" data-z="hoodPart" d="M84 50 Q120 46 156 50 L160 98 Q120 94 80 98 Z"/><path class="z" data-z="hoodRest" d="M80 100 Q120 96 160 100 L164 150 Q120 146 76 150 Z"/><path class="z" data-z="roof" d="M86 200 Q120 196 154 200 L154 308 Q120 312 86 308 Z"/><path class="z" data-z="trunk" d="M80 356 Q120 360 160 356 L166 418 Q120 424 74 418 Z"/><path class="z" data-z="bumperR" d="M38 404 L72 420 Q120 428 168 420 L202 404 Q202 440 180 460 Q120 474 60 460 Q38 440 38 404 Z"/><path class="z" data-z="headL" d="M48 54 L80 52 L78 66 L46 70 Z"/><path class="z" data-z="fenderPartL" d="M45 72 L78 68 L76 110 L41 113 Z"/><path class="z" data-z="fenderRestL" d="M41 115 L76 112 L74 160 L39 162 Z"/><path class="z" data-z="pillarL" d="M74 152 L86 198 L81 200 L69 157 Z"/><path class="z" data-z="mirrorL" d="M40 170 L20 172 Q16 180 20 186 L40 184 Z"/><path class="z" data-z="doorL" d="M42 166 L72 164 L74 318 L42 320 Z"/><path class="z" data-z="handleL" d="M48 226 h12 v5 h-12 Z M48 286 h12 v5 h-12 Z"/><path class="z" data-z="sillL" d="M35 168 L40 168 L40 320 L35 320 Z"/><path class="z" data-z="fenderRearL" d="M40 324 L74 322 L76 404 L38 398 Z"/><g transform="translate(240 0) scale(-1 1)"><path class="z" data-z="headR" d="M48 54 L80 52 L78 66 L46 70 Z"/><path class="z" data-z="fenderPartR" d="M45 72 L78 68 L76 110 L41 113 Z"/><path class="z" data-z="fenderRestR" d="M41 115 L76 112 L74 160 L39 162 Z"/><path class="z" data-z="pillarR" d="M74 152 L86 198 L81 200 L69 157 Z"/><path class="z" data-z="mirrorR" d="M40 170 L20 172 Q16 180 20 186 L40 184 Z"/><path class="z" data-z="doorR" d="M42 166 L72 164 L74 318 L42 320 Z"/><path class="z" data-z="handleR" d="M48 226 h12 v5 h-12 Z M48 286 h12 v5 h-12 Z"/><path class="z" data-z="sillR" d="M35 168 L40 168 L40 320 L35 320 Z"/><path class="z" data-z="fenderRearR" d="M40 324 L74 322 L76 404 L38 398 Z"/></g></svg><div class="pc__leg m"><i class="on"></i>плівка<i></i>без плівки</div></div>
+  <div class="pc__ui">
+   <div class="pc__tabs" role="tablist">
+    <button type="button" role="tab" data-p="std"><b>Стандарт</b><span>зони ризику</span></button>
+    <button type="button" role="tab" data-p="stdp" class="on"><b>Стандарт+</b><span>капот повністю</span></button>
+    <button type="button" role="tab" data-p="stdpp"><b>Стандарт++</b><span>весь перед</span></button>
+    <button type="button" role="tab" data-p="prem"><b>Преміум</b><span>весь кузов</span></button>
+   </div>
+   <div class="pc__cls m" role="radiogroup" aria-label="Клас авто"><button type="button" class="on">Седан</button><button type="button">Хетчбек</button><button type="button">Кросовер</button><button type="button">Джип</button></div>
+   <div class="pc__price"><span class="m" id="pcName">Стандарт+</span><div><small>від</small><b id="pcVal">550</b><small>$</small></div></div>
+   <ul class="pc__list" id="pcList"></ul>
+   <div class="pc__act"><a class="btn" href="#book" id="pcGo">Дізнатися точну ціну <span class="ar">→</span></a><span class="m pc__note">Точна ціна залежить від моделі й плівки. Назвемо після заявки.</span></div>
+  </div>
+ </div>
+</div></section>
+
 <section id="works" style="padding-top:0"><div class="wrap">
  <div class="head"><div><div class="k">Роботи</div><h2 style="margin-top:16px"><span class="rv"><b>З нашого боксу</b></span></h2></div><p><a class="ul" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">Більше в Instagram @2brothers_detailing_ →</a></p></div>
  <div class="wall">
@@ -379,6 +438,11 @@ img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-
   <figure class="w5 lt" tabindex="0"><img src="img/defender.jpg" alt="Land Rover Defender у боксі" loading="lazy"></figure>
   <figure class="w6 lt" tabindex="0"><img src="img/mini.jpg" alt="Mini у боксі" loading="lazy" style="object-position:50% 60%"></figure>
  </div>
+</div></section>
+
+<section id="reviews" class="rvw"><div class="wrap">
+ <div class="head"><div><div class="k">Відгуки</div><h2 style="margin-top:16px"><span class="rv"><b>5.0 у Google.</b></span><span class="rv"><b>Їздять роками.</b></span></h2></div><p><a class="ul" href="https://www.google.com/maps/place/2+Brothers+Detailing/@50.4131059,30.5400297,17z/data=!4m8!3m7!1s0x40d4cf5afb321f05:0xca041a4f3020d232!8m2!3d50.4131059!4d30.5400297!9m1!1b1" target="_blank" rel="noopener">Усі відгуки в Google Картах →</a></p></div>
+ <div class="rvw__g"><figure class="rvw__c"><div class="rvw__s" aria-label="5 зірок">★★★★★</div><blockquote>Моя тачка до і після хімчистки з поліровкою — це просто земля і небо! Періодично звертаюсь до цих хлопців. Коли куплю кабрік — одразу буду клеїти його в плівку саме тут.</blockquote><figcaption><b>ADMedia Production</b><span class="m">2 місяці тому · Google</span></figcaption></figure><figure class="rvw__c"><div class="rvw__s" aria-label="5 зірок">★★★★★</div><blockquote>Долго искал, где сделать антигравийную оклейку авто в Киеве, остановился на этой студии — и не пожалел! Сделали всё качественно, аккуратно и в обговоренные сроки. В подарок нанесли антидождь на все стекла.</blockquote><figcaption><b>Oleg ChyZh</b><span class="m">рік тому · Google</span></figcaption></figure><figure class="rvw__c"><div class="rvw__s" aria-label="5 зірок">★★★★★</div><blockquote>Заклеивал переднюю часть плёнкой, так как много езжу по трассам. Ребята знают подход к машине, всё очень аккуратно и качественно сделали.</blockquote><figcaption><b>Vadim Svetenko</b><span class="m">2 роки тому · Google</span></figcaption></figure><figure class="rvw__c"><div class="rvw__s" aria-label="5 зірок">★★★★★</div><blockquote>Користуюсь послугами хлопців вже більше чотирьох років, за які встиг змінити 3 автомобілі. Роботи завжди виконують в зазначені терміни та на найвищому рівні якості.</blockquote><figcaption><b>Tymophiy Ivanov</b><span class="m">2 роки тому · Google</span></figcaption></figure><figure class="rvw__c"><div class="rvw__s" aria-label="5 зірок">★★★★★</div><blockquote>Третій рік обслуговуємо сімейний автомобіль у цих хлопців. Все завжди швидко, професійно та якісно. Рекомендуємо!</blockquote><figcaption><b>Nadiya Nazarchuk</b><span class="m">2 місяці тому · Google</span></figcaption></figure><figure class="rvw__c"><div class="rvw__s" aria-label="5 зірок">★★★★★</div><blockquote>Обслуговую авто тут майже 1,5 роки. Поліровка, хімчистка, кераміка — роблять круто та якісно. Леонід — майстер своєї справи.</blockquote><figcaption><b>Ан Ноя</b><span class="m">рік тому · Google</span></figcaption></figure></div>
 </div></section>
 
 <section id="how" class="how led"><div class="wrap">
@@ -418,7 +482,9 @@ img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-
    <div class="chips" data-k="when"><button type="button">Сьогодні</button><button type="button" class="sel">Завтра</button><button type="button">Цього тижня</button><button type="button">Пізніше</button></div>
    <label class="lbl" for="car">Авто</label><input id="car" required placeholder="Напр. BMW X5 2021" autocomplete="off">
    <label class="lbl" for="tel">Телефон</label><input id="tel" required type="tel" placeholder="+380" inputmode="tel">
+   <div class="pick" id="pick" hidden><span class="m">Обрано</span><b id="pickT"></b><button type="button" id="pickX" aria-label="Прибрати">×</button></div>
    <button class="btn">Надіслати заявку <span class="ar">→</span></button>
+   <div class="msgr"><span class="m">або одразу в месенджер</span><a href="https://t.me/TwoBrothersDet" target="_blank" rel="noopener">Telegram</a><a href="viber://chat?number=%2B380661411888">Viber</a></div>
    <p class="hint">Без передоплати. Передзвонимо в робочий час.</p>
   </form>
   <div class="done">
@@ -426,6 +492,12 @@ img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-
    <div class="tgc"><div class="top"><div class="av">2B</div><div><div class="nm">2 Brothers · Заявки</div><div class="st">бот</div></div></div><div class="m" id="msg"></div></div>
   </div>
  </div>
+</div></section>
+
+<section id="faq" class="faq"><div class="wrap">
+ <div class="head"><div><div class="k">Питання</div><h2 style="margin-top:16px"><span class="rv"><b>Про плівку коротко</b></span></h2></div><p>Не знайшли відповідь? Напишіть у <a class="ul" href="https://t.me/TwoBrothersDet" target="_blank" rel="noopener">Telegram</a> або <a class="ul" href="viber://chat?number=%2B380661411888">Viber</a>.</p></div>
+ <div class="faq__l"><details><summary>Скільки служить антигравійна плівка?<i></i></summary><p>Зазвичай 5–10 років, залежно від плівки, пробігу й догляду. На обклеювання даємо 365 днів гарантії.</p></details><details><summary>Скільки часу займає обклеювання?<i></i></summary><p>Зони ризику зазвичай 1–2 дні, весь кузов кілька днів. Після поклейки авто лишається в боксі, щоб плівка схопилась. Точний термін скажемо при записі.</p></details><details><summary>Коли можна мити авто після плівки?<i></i></summary><p>Перше миття через 7–14 днів. Далі звичайна мийка, тільки без тиску впритул до країв плівки.</p></details><details><summary>Чи буде видно плівку?<i></i></summary><p>Прозора поліуретанова плівка майже непомітна, глянець лаку лишається. Є матова: вона робить кузов сатиновим.</p></details><details><summary>Можна обклеїти тільки одну деталь?<i></i></summary><p>Так, від 99$ за деталь: фари, пороги, зони під ручками, дах, дзеркала. Позначте потрібне на схемі вище.</p></details><details><summary>Плівку можна потім зняти?<i></i></summary><p>Так. Якісна плівка знімається без слідів на заводському лаку.</p></details></div>
+ <div class="gift"><div><div class="m">Подарунок</div><h3>Сертифікат на детейлінг</h3><p>На будь-яку суму або послугу. Красиво оформимо, передамо особисто або в Telegram.</p></div><a class="btn line" href="#book" data-lead="Подарунковий сертифікат">Замовити сертифікат <span class="ar">→</span></a></div>
 </div></section>
 
 <section class="map" id="map" aria-label="Як нас знайти">
@@ -437,7 +509,7 @@ img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-
    <h2>Бокс на<br>Печерську</h2>
    <p class="map__addr">бул. Дружби Народів, 14/16<br>Новопечерські Липки, Київ</p>
    <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=%D0%B1%D1%83%D0%BB.%20%D0%94%D1%80%D1%83%D0%B6%D0%B1%D0%B8%20%D0%9D%D0%B0%D1%80%D0%BE%D0%B4%D1%96%D0%B2%2C%2016%2C%20%D0%9A%D0%B8%D1%97%D0%B2" target="_blank" rel="noopener">Прокласти маршрут <span class="ar">→</span></a>
-   <div class="map__contact"><a class="btn line" href="tel:+380661411888">Подзвонити</a><a class="btn line" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">Instagram</a></div>
+   <div class="map__contact"><a class="btn line" href="tel:+380661411888">Подзвонити</a><a class="btn line" href="https://t.me/TwoBrothersDet" target="_blank" rel="noopener">Telegram</a><a class="btn line" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">Instagram</a></div>
   </div>
  </div>
 </section>
@@ -457,10 +529,10 @@ document.getElementById('f').addEventListener('submit',async e=>{e.preventDefaul
  const car=document.getElementById('car').value.trim(),tel=document.getElementById('tel').value.trim(),t=new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
  const sb=e.target.querySelector('button.btn'),hint=e.target.querySelector('.hint');
  if(LEAD_URL){sb.disabled=true;sb.style.opacity=.6;
-  let ok=false;try{const r=await fetch(LEAD_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({car,tel,svc:pick('svc'),when:pick('when')})});ok=r.ok}catch(_){}
+  let ok=false;try{const r=await fetch(LEAD_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({car,tel,svc:(window.__lead||pick('svc')),when:pick('when')})});ok=r.ok}catch(_){}
   sb.disabled=false;sb.style.opacity='';
   if(!ok){hint.textContent='Не вдалося надіслати. Спробуйте ще раз або подзвоніть: 066 141 1888';hint.style.color='var(--a)';return}}
- document.getElementById('msg').innerHTML='🔔 <b>Нова заявка</b><br>🚗 '+esc(car)+'<br>🛠 '+esc(pick('svc'))+'<br>📅 '+esc(pick('when'))+'<br>📞 '+esc(tel)+'<small>'+t+'</small>';
+ document.getElementById('msg').innerHTML='🔔 <b>Нова заявка</b><br>🚗 '+esc(car)+'<br>🛠 '+esc(window.__lead||pick('svc'))+'<br>📅 '+esc(pick('when'))+'<br>📞 '+esc(tel)+'<small>'+t+'</small>';
  document.getElementById('bk').classList.add('ok');document.getElementById('bar').style.display='none';
  document.getElementById('bk').scrollIntoView({behavior:'smooth',block:'center'});
 });
@@ -515,7 +587,7 @@ new IntersectionObserver(([e])=>on=e.isIntersecting).observe(h);
 (function f(n){requestAnimationFrame(f);if(!on)return;if(n-m>2500)t=50+55*Math.sin(n/2600);x+=(t-x)*.06;l.style.setProperty('--x',x.toFixed(1)+'%');X.textContent=String(Math.round(Math.max(0,Math.min(100,x)))).padStart(3,'0')})(0);
 })();
 </script>
-<script type="module" src="cer.js?v=11"></script>
+<script type="module" src="cer.js?v=12"></script>
 <div class="curtain intro" id="curtain" aria-hidden="true"><div class="cin"><b>2B</b><span><em>2 Brothers</em><em>Detailing · Печерськ</em></span></div><i></i></div>
 <script>
 (()=>{const c=document.getElementById('curtain'),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -533,6 +605,32 @@ bg.addEventListener('click',()=>tog(!mm.classList.contains('open')));mm.querySel
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const t=e.target;t.classList.add('in');io.unobserve(t);setTimeout(()=>{t.classList.remove('rev','in');t.style.transitionDelay=''},1600)}}),{rootMargin:'0px 0px -12% 0px'});
 document.querySelectorAll('main section:not(#ceramic)').forEach(sec=>{let n=0;sec.querySelectorAll('h2,.head p,.frame,.idx li,.lt,.tgc,.form,.map .wrap>*').forEach(el=>{if(el.closest('.rv'))return;el.classList.add('rev');el.style.transitionDelay=Math.min(n++,5)*80+'ms';io.observe(el)})});
 })();
+</script>
+<script>
+(()=>{const pc=document.querySelector('.pc');if(!pc)return;
+const Z=[...pc.querySelectorAll('.z')],tabs=[...pc.querySelectorAll('.pc__tabs button')],cls=[...pc.querySelectorAll('.pc__cls button')];
+const base=['bumperF','hoodPart','fenderPartL','fenderPartR','mirrorL','mirrorR','headL','headR','handleL','handleR'];
+const P={std:{n:'Стандарт',v:400,z:base},stdp:{n:'Стандарт+',v:550,z:[...base,'hoodRest']},stdpp:{n:'Стандарт++',v:700,z:[...base,'hoodRest','fenderRestL','fenderRestR','pillarL','pillarR']},prem:{n:'Преміум',v:1800,z:Z.map(z=>z.dataset.z)}};
+let sel=new Set(P.stdp.z),pk='stdp',shown=550;const nm=document.getElementById('pcName'),val=document.getElementById('pcVal'),list=document.getElementById('pcList');
+const has=k=>sel.has(k+'L')||sel.has(k+'R')||sel.has(k);
+function items(){const o=[];if(has('bumperF'))o.push('Передній бампер');
+ if(sel.has('hoodPart')&&sel.has('hoodRest'))o.push('Капот повністю');else if(sel.has('hoodPart'))o.push('Капот, перші 40 см');else if(sel.has('hoodRest'))o.push('Капот, задня частина');
+ const fp=has('fenderPart'),fr=has('fenderRest');if(fp&&fr)o.push('Передні крила повністю');else if(fp)o.push('Передні крила, частково');else if(fr)o.push('Передні крила, задня частина');
+ [['head','Фари'],['mirror','Дзеркала'],['handle','Зони під ручками'],['pillar','Стійки лобового скла'],['roof','Дах'],['door','Двері'],['sill','Пороги'],['fenderRear','Задні крила'],['trunk','Кришка багажника'],['bumperR','Задній бампер']].forEach(([k,l])=>{if(has(k))o.push(l)});return o}
+function count(v){const from=shown,t0=performance.now();shown=v;(function f(n){const k=Math.min(1,(n-t0)/450),e=1-Math.pow(1-k,3);val.textContent=Math.round(from+(v-from)*e);if(k<1)requestAnimationFrame(f)})(t0)}
+function draw(){let i=0;Z.forEach(z=>{const on=sel.has(z.dataset.z);if(on!==z.classList.contains('c')){z.style.transitionDelay=on?(i++*28)+'ms':'0ms';z.classList.toggle('c',on)}});
+ const it=items();list.innerHTML=it.length?it.map((x,j)=>'<li style="animation-delay:'+j*35+'ms">'+x+'</li>').join(''):'<li>Натисніть деталь на схемі</li>';
+ if(pk==='custom'){nm.textContent='Свій вибір · '+sel.size+' дет.';count(sel.size*99)}else{nm.textContent=P[pk].n;count(P[pk].v)}}
+tabs.forEach(b=>b.addEventListener('click',()=>{pk=b.dataset.p;sel=new Set(P[pk].z);pc.classList.remove('custom');tabs.forEach(t=>t.classList.toggle('on',t===b));draw()}));
+Z.forEach(z=>z.addEventListener('click',()=>{const k=z.dataset.z;if(pk!=='custom'){pk='custom';pc.classList.add('custom')}sel.has(k)?sel.delete(k):sel.add(k);draw()}));
+cls.forEach(b=>b.addEventListener('click',()=>cls.forEach(t=>t.classList.toggle('on',t===b))));
+const pick=document.getElementById('pick'),pickT=document.getElementById('pickT');
+window.setLead=t=>{window.__lead=t;pickT.textContent=t;pick.hidden=!t};document.getElementById('pickX').addEventListener('click',()=>setLead(''));
+document.getElementById('pcGo').addEventListener('click',()=>{const c=pc.querySelector('.pc__cls .on').textContent,v=pk==='custom'?sel.size*99:P[pk].v;
+ setLead('Плівка: '+(pk==='custom'?'свій вибір ('+items().join(', ').toLowerCase()+')':P[pk].n)+' · '+c+' · від '+v+'$');
+ document.querySelectorAll('[data-k="svc"] button').forEach(x=>x.classList.toggle('sel',x.textContent==='Антигравійна плівка'))});
+document.querySelectorAll('[data-lead]').forEach(a=>a.addEventListener('click',()=>setLead(a.dataset.lead)));
+draw();})();
 </script>
 </body>
 </html>
