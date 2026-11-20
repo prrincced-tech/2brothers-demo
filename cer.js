@@ -14,7 +14,7 @@ async function go() {
   const R = new T.WebGLRenderer({ antialias: !mob, alpha: true, powerPreference: 'high-performance' });
   R.setPixelRatio(Math.min(devicePixelRatio, mob ? 1.25 : 1.75));
   R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
-  st.prepend(R.domElement);
+  const view = document.getElementById('cerView'); view.appendChild(R.domElement);
   const S = new T.Scene(), C = new T.PerspectiveCamera(mob ? 36 : 28, 1, .05, 60);
   const pm = new T.PMREMGenerator(R);
   S.environment = pm.fromScene(new RoomEnvironment(), .02).texture;
@@ -159,7 +159,7 @@ async function go() {
   rail.forEach((r, i) => r.addEventListener('click', () => { tl = i * STEP + .01; }));
   const ray = new T.Raycaster(), ndc = new T.Vector2(), pp = new T.Vector3();
   function rain(cx, cy, n) {
-    const r = st.getBoundingClientRect(); ndc.set((cx - r.left) / r.width * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
+    const r = view.getBoundingClientRect(); ndc.set((cx - r.left) / r.width * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, C); const o0 = ray.ray.origin, d = ray.ray.direction;
     for (let t = .3; t < 25; t += .012) {
       pp.copy(d).multiplyScalar(t).add(o0);
@@ -206,11 +206,11 @@ async function go() {
   }
 
   function size() {
-    const w = st.clientWidth, h = st.clientHeight; R.setSize(w, h, false); C.aspect = w / h;
-    if (mob) C.setViewOffset(w, h, 0, h * .13, w, h); else C.setViewOffset(w, h, -w * .15, h * .02, w, h);
+    const w = view.clientWidth, h = view.clientHeight; R.setSize(w, h, false); C.aspect = w / h;
+    if (mob) C.clearViewOffset(); else C.setViewOffset(w, h, -w * .15, h * .02, w, h);
     C.updateProjectionMatrix();
   }
-  new ResizeObserver(size).observe(st); size();
+  new ResizeObserver(size).observe(view); size();
   let on = true; new IntersectionObserver(([e]) => on = e.isIntersecting).observe(st);
 
   // ---------- loop ----------
