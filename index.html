@@ -53,6 +53,11 @@ h2{font-size:clamp(34px,5.2vw,72px)}
 .hud b{font-weight:400;color:var(--fg)}.hud i{font-style:normal;color:var(--a)}
 .hud.tl{position:static;grid-column:1/-1;margin-bottom:-14px}
 @media(max-width:900px){.hud.br{display:none}.hud.tl{margin-bottom:-6px}}.hud.br{bottom:24px;right:24px;text-align:right}
+.drop{padding-bottom:0}.drop .stage{position:relative;height:min(78svh,720px);min-height:460px;margin-top:8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);touch-action:pan-y;cursor:grab;background:radial-gradient(120% 80% at 50% 0%,#1d1f23,#121315 70%)}
+.drop canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.drop .hud{opacity:1;animation:none;z-index:2}.drop .hud.l{top:20px;left:24px}.drop .hud.r{top:20px;right:24px;text-align:right}.drop .hud.b{bottom:18px;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}
+.drop .hint{position:absolute;left:24px;bottom:18px;z-index:2;font-size:13px;color:var(--mut)}
+@media(max-width:900px){.drop .stage{height:72svh;min-height:420px}.drop .hud.l{left:16px;top:14px}.drop .hud.r{right:16px;top:14px}.drop .hint{display:none}.drop .hud.b{bottom:14px}}
 .hero .side{opacity:0;animation:fade .8s .45s var(--ease) forwards}
 .hero .side p{color:#D9D5CF;font-size:18px;max-width:38ch}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
@@ -276,6 +281,17 @@ footer b{color:var(--fg)}
  </div>
 </div></section>
 
+<section id="ceramic" class="drop"><div class="wrap">
+ <div class="head"><div><div class="k">Кераміка</div><h2 style="margin-top:16px">Вода скочується<br>сама</h2></div><p>Ліворуч кераміка, праворуч голий лак. Нахиліть капот мишею або проведіть пальцем.</p></div>
+</div>
+ <div class="stage" id="dropStage" aria-label="Інтерактивна демонстрація: краплі води на капоті з керамікою і без">
+  <div class="hud l" aria-hidden="true"><b>З керамікою</b><br>кут скочування 8°</div>
+  <div class="hud r" aria-hidden="true"><b>Без захисту</b><br>вода тримається</div>
+  <div class="hud b" aria-hidden="true">Нахил <b id="dTilt">00°</b> · крапель <b id="dCount">000</b></div>
+  <div class="hint">Клік додає дощ</div>
+ </div>
+</section>
+
 <section id="works" style="padding-top:0"><div class="wrap">
  <div class="head"><div><div class="k">Роботи</div><h2 style="margin-top:16px"><span class="rv"><b>З нашого боксу</b></span></h2></div><p><a class="ul" href="https://instagram.com/2brothers_detailing_" target="_blank" rel="noopener">Більше в Instagram @2brothers_detailing_ →</a></p></div>
  <div class="wall">
@@ -415,6 +431,58 @@ h.addEventListener('pointermove',e=>{const r=l.getBoundingClientRect();t=Math.ma
 new IntersectionObserver(([e])=>on=e.isIntersecting).observe(h);
 (function f(n){requestAnimationFrame(f);if(!on)return;if(n-m>2500)t=50+55*Math.sin(n/2600);x+=(t-x)*.06;l.style.setProperty('--x',x.toFixed(1)+'%');X.textContent=String(Math.round(Math.max(0,Math.min(100,x)))).padStart(3,'0')})(0);
 })();
+</script>
+<script type="module">
+const st=document.getElementById('dropStage');let started=false;
+new IntersectionObserver(([e])=>{if(e.isIntersecting&&!started){started=true;go()}},{rootMargin:'300px'}).observe(st);
+async function go(){
+let T;try{T=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js')}catch(e){return}
+const mob=matchMedia('(max-width:900px)').matches,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let R;try{R=new T.WebGLRenderer({antialias:!mob||devicePixelRatio<2,alpha:true,powerPreference:'high-performance'})}catch(e){return}
+R.setPixelRatio(Math.min(devicePixelRatio,mob?1.5:2));R.toneMapping=T.ACESFilmicToneMapping;R.outputColorSpace=T.SRGBColorSpace;st.prepend(R.domElement);
+const S=new T.Scene(),C=new T.PerspectiveCamera(32,1,.1,100);
+const E=new T.Scene();E.background=new T.Color(0x07080a);
+const lm=new T.MeshBasicMaterial({color:0xc4c8d0});
+for(let i=-3;i<=3;i++){const b=new T.Mesh(new T.BoxGeometry(22,.35,.5),lm);b.position.set(0,9,i*2.6);E.add(b)}
+for(let i=-2;i<=2;i++){const b=new T.Mesh(new T.BoxGeometry(.3,.35,18),lm);b.position.set(i*5,9,0);E.add(b)}
+
+const L=new T.DirectionalLight(0xffffff,2.2);L.position.set(-3,8,4);S.add(L);S.add(new T.AmbientLight(0xffffff,.15));const pm=new T.PMREMGenerator(R),env=pm.fromScene(E,0,.1,60).texture;S.environment=env;
+const mobV=matchMedia('(max-width:900px)').matches,W=12,D=8,V=mobV?3.8:6.4,crown=x=>-.02*x*x;
+const hood=new T.Group();S.add(hood);
+function half(x0,x1,rough){const g=new T.PlaneGeometry(x1-x0,D,40,10);g.rotateX(-Math.PI/2);g.translate((x0+x1)/2,0,0);const p=g.attributes.position;for(let i=0;i<p.count;i++)p.setY(i,crown(p.getX(i)));g.computeVertexNormals();
+const m=new T.Mesh(g,new T.MeshPhysicalMaterial({color:0x23252a,metalness:.6,roughness:rough,clearcoat:1,clearcoatRoughness:rough*.6,envMapIntensity:1.1}));hood.add(m)}
+half(-W/2,0,.04);half(0,W/2,.3);
+const tape=new T.Mesh(new T.PlaneGeometry(.07,D),new T.MeshStandardMaterial({color:0xd9d2c3,roughness:.9}));tape.rotation.x=-Math.PI/2;tape.position.y=.004;hood.add(tape);
+const dm=new T.MeshPhysicalMaterial({color:0xffffff,metalness:0,roughness:0,clearcoat:1,transparent:true,opacity:.6,envMapIntensity:3});const pmat=dm.clone();pmat.opacity=.16;pmat.envMapIntensity=1.6;
+const N=mob?160:240,M=mob?40:60,sg=new T.SphereGeometry(1,mob?14:20,mob?10:14);
+const beads=new T.InstancedMesh(sg,dm,N),sheets=new T.InstancedMesh(sg,pmat,M);hood.add(beads,sheets);
+const B=[],P=[],o=new T.Object3D(),rnd=(a,b)=>a+Math.random()*(b-a);
+function add(x,z){if(x<0){if(B.length>=N)B.shift();B.push({x,z,vx:0,vz:0,r:rnd(.035,.09),a:0})}else{if(P.length>=M)P.shift();P.push({x,z,vx:0,vz:0,r:rnd(.06,.1),s:1,a:0,q:rnd(0,3.14),e:rnd(.7,1.4)})}}
+const zx=()=>rnd(-V/2,V/2),zz=()=>rnd(-D/2.6,D/2.6);for(let i=0;i<(mob?120:180);i++)add(-rnd(.1,V/2),zz());for(let i=0;i<(mob?22:30);i++)add(rnd(.15,V/2),zz());
+P.forEach(p=>p.s=rnd(1.5,2.6));
+let tx=0,ty=0,gx=0,gy=0,last=-1e9,down=false;
+const aim=e=>{const r=st.getBoundingClientRect();gx=((e.clientX-r.left)/r.width-.5)*2;gy=((e.clientY-r.top)/r.height-.5)*2;last=performance.now()};
+st.addEventListener('pointermove',aim);st.addEventListener('pointerdown',e=>{aim(e);down=true;if(e.pointerType==='mouse')for(let i=0;i<20;i++)add(zx(),zz())});
+addEventListener('pointerup',()=>down=false);
+const tEl=document.getElementById('dTilt'),cEl=document.getElementById('dCount');
+function size(){const w=st.clientWidth,h=st.clientHeight;R.setSize(w,h,false);C.aspect=w/h;const d=Math.max((V*.5)/Math.tan(C.fov*Math.PI/360)/C.aspect,(D*.32)/Math.tan(C.fov*Math.PI/360));C.position.set(0,d*.66,d*.78);C.lookAt(0,-.25,.35);C.updateProjectionMatrix()}
+new ResizeObserver(size).observe(st);size();
+let vis=true,rain=0,pt=performance.now();new IntersectionObserver(([e])=>vis=e.isIntersecting).observe(st);
+function frame(n){requestAnimationFrame(frame);if(!vis)return;const dt=Math.min(.05,(n-pt)/1000);pt=n;
+if(n-last>2500&&!still){gx=Math.sin(n/2300)**3*.9;gy=Math.sin(n/3100)**3*.5}
+tx+=(gx-tx)*.07;ty+=(gy-ty)*.07;hood.rotation.z=-tx*.16;hood.rotation.x=ty*.1;
+rain+=dt;if(!still&&rain>(mob?.08:.05)){rain=0;add(zx(),zz())}
+const k=dt*60;
+for(let i=B.length-1;i>=0;i--){const d=B[i];d.a=Math.min(1,d.a+dt*5);const g=Math.hypot(tx,ty);if(g>.42){d.vx+=tx*.0009*k;d.vz+=ty*.0009*k}else{d.vx*=.8;d.vz*=.8}d.vx*=.975;d.vz*=.975;d.x+=d.vx*k;d.z+=d.vz*k;
+if(d.x>-.05||d.x<-V/2-.6||Math.abs(d.z)>D/2.6+.6)B.splice(i,1)}
+for(let i=P.length-1;i>=0;i--){const d=P[i];d.a=Math.min(1,d.a+dt*4);d.s=Math.min(3.2,d.s+dt*.35);if(Math.abs(tx)>.55){d.vx+=tx*.00012*k}if(Math.abs(ty)>.55){d.vz+=ty*.00012*k}d.vx*=.9;d.vz*=.9;d.x+=d.vx*k;d.z+=d.vz*k;
+if(d.x<.12){d.x=.12}if(d.x>V/2+.6||Math.abs(d.z)>D/2.6+.6)P.splice(i,1)}
+B.forEach((d,i)=>{const r=d.r*(.4+.6*d.a);o.position.set(d.x,crown(d.x)+r*.55,d.z);o.scale.set(r,r*.78,r);o.rotation.set(0,0,0);o.updateMatrix();beads.setMatrixAt(i,o.matrix)});
+P.forEach((d,i)=>{const r=d.r*d.s*(.4+.6*d.a);o.position.set(d.x,crown(d.x)+.008,d.z);o.rotation.set(0,d.q,0);o.scale.set(r*d.e,.012,r/d.e);o.updateMatrix();sheets.setMatrixAt(i,o.matrix)});
+beads.count=B.length;sheets.count=P.length;beads.instanceMatrix.needsUpdate=sheets.instanceMatrix.needsUpdate=true;
+R.render(S,C);
+const deg=Math.round(Math.hypot(tx*.16,ty*.1)*57.3);tEl.textContent=String(deg).padStart(2,'0')+'°';cEl.textContent=String(B.length+P.length).padStart(3,'0')}
+requestAnimationFrame(frame)}
 </script>
 </body>
 </html>
