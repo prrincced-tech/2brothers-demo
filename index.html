@@ -452,7 +452,7 @@ document.querySelectorAll('.chips').forEach(g=>g.addEventListener('click',e=>{co
 document.querySelectorAll('[data-svc]').forEach(c=>c.addEventListener('click',()=>{const v=c.dataset.svc;document.querySelectorAll('[data-k="svc"] button').forEach(b=>b.classList.toggle('sel',b.textContent===v))}));
 const pick=k=>document.querySelector('[data-k="'+k+'"] .sel').textContent;
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const LEAD_URL='';
+const LEAD_URL='https://2brothers-leads.2brothers.workers.dev';
 document.getElementById('f').addEventListener('submit',async e=>{e.preventDefault();
  const car=document.getElementById('car').value.trim(),tel=document.getElementById('tel').value.trim(),t=new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
  const sb=e.target.querySelector('button.btn'),hint=e.target.querySelector('.hint');
