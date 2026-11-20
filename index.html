@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#121315">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%23D8363C%27/%3E%3Ctext x=%2732%27 y=%2742%27 font-family=%27Arial%27 font-weight=%27900%27 font-size=%2728%27 text-anchor=%27middle%27 fill=%27white%27%3E2B%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400&family=Inter+Tight:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/oct2.jpg">
 <style>
 :root{--bg:#121315;--s1:#191A1D;--s2:#212226;--line:rgba(255,255,255,.07);--fg:#EDEAE4;--mut:#9A968F;--a:#D8363C;--led:rgba(235,240,255,.9);--ease:cubic-bezier(.2,.7,.1,1);color-scheme:dark}
@@ -248,6 +248,31 @@ footer b{color:var(--fg)}
  .map.is-moving .map__card{transform:none;opacity:1}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero img{transform:none}.hero h1 span b{transform:none}.hero .side{opacity:1}.bub,.tgc{opacity:1;transform:none}}
+
+/* ---- minimal pass ---- */
+body{font-family:'Inter Tight',Onest,-apple-system,Arial,sans-serif}
+h1,h2,h3{font-family:'Inter Tight',sans-serif;font-weight:300;letter-spacing:-.045em;line-height:.96}
+h3{font-weight:400;letter-spacing:-.02em;line-height:1.1}
+b,strong{font-weight:500}
+.hero h1 span:nth-child(3) b{color:var(--mut)}
+.say .big{font-family:'Inter Tight',sans-serif;font-weight:300;letter-spacing:-.04em;line-height:1.06;color:var(--mut)}.say .big b{font-weight:300}.say em{color:var(--fg)}
+.k{font:400 11px/1.4 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}.k:before{height:1px;width:28px}
+.btn{height:52px;padding:0 24px;background:var(--fg);color:#121315;font-weight:500;font-size:15px}.btn:hover{background:#fff;transform:none}
+.btn.line{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}.btn.line:hover{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6)}
+.nav .wrap{height:64px}.nav.on{background:rgba(18,19,21,.7);border-bottom-color:rgba(255,255,255,.04)}
+.mark{font-weight:500;font-size:15px;letter-spacing:-.01em;gap:9px}.mark i{width:22px;height:22px;border-radius:5px;font-size:10px;font-weight:600}
+.nav ul{gap:30px;font:400 11px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}.nav ul a{transition:color .2s}.nav ul a:hover{color:var(--fg)}
+.demo{border:0;padding:0;font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.55}
+.nav .btn{height:36px;padding:0 16px;font-size:13px}
+.bar .btn{height:48px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.cer .cta{background:var(--fg);color:#121315;font-weight:500}.cer .br{display:none}
+.rev{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform 1s var(--ease)}.rev.in{opacity:1;transform:none}
+img.rev{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6%);transition:clip-path 1.2s var(--ease)}img.rev.in{clip-path:inset(0)}
+.curtain{position:fixed;inset:0;z-index:200;background:#0e0f11;display:grid;place-items:center;transform:translateY(0);transition:transform .7s cubic-bezier(.7,0,.2,1);pointer-events:none}
+.curtain.up{transform:translateY(-100%)}.curtain.intro{animation:curOut .7s 1.8s cubic-bezier(.7,0,.2,1) forwards}@keyframes curOut{to{transform:translateY(-100%)}}.curtain.down{transform:translateY(100%);transition:none}
+.curtain span{font:400 11px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.3em;text-transform:uppercase;color:rgba(237,234,228,.6)}
+.curtain i{position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--a);transform-origin:0 50%;transform:scaleX(0);transition:transform .6s var(--ease)}.curtain.go i{transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){.rev,img.rev{opacity:1;transform:none;clip-path:none;transition:none}.curtain{display:none}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
@@ -263,9 +288,9 @@ footer b{color:var(--fg)}
 <header class="hero">
  <img src="img/oct2.jpg" alt="Porsche Cayenne у боксі 2 Brothers">
  <div class="lamp" aria-hidden="true"></div>
- <div class="hud br" aria-hidden="true">Світло 6500 K · <i>●</i> <b id="hudT">22:47</b><br>Лак під лампою · <b id="hudX">030</b> / 100</div>
+ <div class="hud br" aria-hidden="true">Київ · <b id="hudT">22:47</b><span id="hudX" hidden>0</span></div>
  <div class="wrap">
-  <div class="hud tl" aria-hidden="true"><b>Бокс 01</b> — 50°26′ пн.ш. · 30°32′ сх.д.</div>
+  <div class="hud tl" aria-hidden="true"><b>2 Brothers</b> — детейлінг на Печерську</div>
   <h1><span><b>Плівка,</b></span><span><b>полірування</b></span><span><b>на Печерську.</b></span></h1>
   <div class="side">
    <p>Антигравійна і кольорова плівка, кераміка, хімчистка. 15 років досвіду і 365 днів гарантії на обклеювання.</p>
@@ -305,7 +330,7 @@ footer b{color:var(--fg)}
   <div class="view" id="cerView"></div>
   <div class="ld m" id="cerLoad">Завантаження 000 / 100</div>
   <div class="ov tl m">Кераміка · <b>2 Brothers</b></div>
-  <div class="ov tr m"><b>←</b> кераміка 9H<br>голий лак <b>→</b></div>
+  <div class="ov tr m"><b>←</b> кераміка · лак <b>→</b></div>
   <div class="ov rail m"><button type="button" class="on" aria-label="Крок 1: дощ">01</button><button type="button" aria-label="Крок 2: кераміка">02</button><button type="button" aria-label="Крок 3: голий лак">03</button><button type="button" aria-label="Крок 4: мийка">04</button></div>
   <div class="ov br m">Крапель на кераміці <b id="cL">000</b><br>Плям на лаку <b id="cRt">000</b><br>Камера <b id="cA">00°</b></div>
   <div class="ov bl">
@@ -462,5 +487,19 @@ new IntersectionObserver(([e])=>on=e.isIntersecting).observe(h);
 })();
 </script>
 <script type="module" src="cer.js?v=11"></script>
+<div class="curtain intro" id="curtain" aria-hidden="true"><span>2 Brothers · Печерськ</span><i></i></div>
+<script>
+(()=>{const c=document.getElementById('curtain'),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(still){c.remove();return}
+requestAnimationFrame(()=>c.classList.add('go'));setTimeout(()=>{c.classList.add('up');c.classList.remove('intro')},650);
+document.querySelectorAll('.nav a[href^="#"],.cer .cta,.hero a[href^="#"],.bar a').forEach(a=>a.addEventListener('click',e=>{
+ const id=a.getAttribute('href');const t=id.length>1&&document.querySelector(id);if(!t)return;e.preventDefault();
+ c.classList.remove('up','go');c.classList.add('down');c.offsetHeight;c.classList.remove('down');
+ setTimeout(()=>{scrollTo({top:t.getBoundingClientRect().top+scrollY-64,behavior:'instant'});c.classList.add('go');setTimeout(()=>c.classList.add('up'),280)},720);
+}));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const t=e.target;t.classList.add('in');io.unobserve(t);setTimeout(()=>{t.classList.remove('rev','in');t.style.transitionDelay=''},1600)}}),{rootMargin:'0px 0px -12% 0px'});
+document.querySelectorAll('main section:not(#ceramic)').forEach(sec=>{let n=0;sec.querySelectorAll('h2,.head p,.frame,.idx li,.lt,.tgc,.form,.map .wrap>*').forEach(el=>{if(el.closest('.rv'))return;el.classList.add('rev');el.style.transitionDelay=Math.min(n++,5)*80+'ms';io.observe(el)})});
+})();
+</script>
 </body>
 </html>
