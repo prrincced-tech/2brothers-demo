@@ -11,8 +11,8 @@ async function go() {
   const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
   const mob = matchMedia('(max-width:900px)').matches, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const R = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-  R.setPixelRatio(Math.min(devicePixelRatio, mob ? 1.5 : 1.75));
+  const R = new T.WebGLRenderer({ antialias: !mob, alpha: true, powerPreference: 'high-performance' });
+  R.setPixelRatio(Math.min(devicePixelRatio, mob ? 1.25 : 1.75));
   R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
   st.prepend(R.domElement);
   const S = new T.Scene(), C = new T.PerspectiveCamera(mob ? 36 : 28, 1, .05, 60);
@@ -104,11 +104,13 @@ async function go() {
   }
 
   // ---------- water ----------
-  const water = new T.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: .012, ior: 1.33, specularIntensity: 1, envMapIntensity: .9 });
+  const water = mob
+    ? new T.MeshPhysicalMaterial({ color: 0x06070a, metalness: 0, roughness: .03, ior: 1.33, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: 0, envMapIntensity: 1.6 })
+    : new T.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: .012, ior: 1.33, specularIntensity: 1, envMapIntensity: .9 });
   const key = new T.DirectionalLight(0xffffff, 3); key.position.set(-2, 6, 4); S.add(key);
-  const bg = new T.SphereGeometry(1, mob ? 16 : 22, mob ? 10 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
-  const pg = new T.SphereGeometry(1, mob ? 18 : 26, mob ? 7 : 10, 0, Math.PI * 2, 0, 1.25); pg.translate(0, -Math.cos(1.25), 0);
-  const NB = mob ? 380 : 650, NP = mob ? 360 : 600;
+  const bg = new T.SphereGeometry(1, mob ? 10 : 22, mob ? 6 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
+  const pg = new T.SphereGeometry(1, mob ? 12 : 26, mob ? 4 : 10, 0, Math.PI * 2, 0, 1.25); pg.translate(0, -Math.cos(1.25), 0);
+  const NB = mob ? 240 : 650, NP = mob ? 220 : 600;
   const beads = new T.InstancedMesh(bg, water, NB), pud = new T.InstancedMesh(pg, water, NP);
   beads.frustumCulled = pud.frustumCulled = false; S.add(beads, pud);
   const B = [], P = [], rnd = (a, b) => a + Math.random() * (b - a), q = {};
@@ -125,7 +127,7 @@ async function go() {
       if (P.length < NP) P.push({ x, z, r: 0, g: Math.random() < .15 ? rnd(.035, .055) : rnd(.012, .032), e: rnd(.75, 1.3), t: rnd(0, 6.28), y: q.h, nx: q.nx, ny: q.ny, nz: q.nz });
     }
   }
-  for (let i = 0; i < (mob ? 2600 : 4200); i++) drop();
+  for (let i = 0; i < (mob ? 1700 : 4200); i++) drop();
   B.forEach(b => b.a = 1); P.forEach(p => p.r = p.g);
 
   // ---------- camera, scroll story & input ----------
@@ -168,9 +170,11 @@ async function go() {
     }
   }
   let lastRain = 0;
-  st.addEventListener('pointerdown', e => { if (e.target.closest('button,a')) return; down = true; lx = e.clientX; ly = e.clientY; last = performance.now(); rain(e.clientX, e.clientY, e.pointerType === 'mouse' ? 6 : 12); });
+  st.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' || e.target.closest('button,a')) return; down = true; lx = e.clientX; ly = e.clientY; last = performance.now(); rain(e.clientX, e.clientY, 6); });
+  st.addEventListener('click', e => { if (e.target.closest('button,a') || matchMedia('(pointer:fine)').matches) return; rain(e.clientX, e.clientY, 12); });
   addEventListener('pointerup', () => down = false); addEventListener('pointercancel', () => down = false);
   st.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
     const n = performance.now();
     if (n - lastRain > 35) { lastRain = n; rain(e.clientX, e.clientY, 3); }
     if (!down) return;
@@ -212,7 +216,7 @@ async function go() {
   // ---------- loop ----------
   const o = new T.Object3D(), UP = new T.Vector3(0, 1, 0), nv = new T.Vector3(), qr = new T.Quaternion();
   const eN = document.getElementById('cL'), eR = document.getElementById('cRt'), eA = document.getElementById('cA');
-  let pt = performance.now(), acc = 0;
+  let pt = performance.now(), acc = 0, hud = 0;
   ld.classList.add('off'); setTimeout(() => ld.style.display = 'none', 700);
   function frame(n) {
     requestAnimationFrame(frame); if (!on) { pt = n; return; }
@@ -266,6 +270,7 @@ async function go() {
     });
     beads.count = B.length; pud.count = P.length; beads.instanceMatrix.needsUpdate = pud.instanceMatrix.needsUpdate = true;
     R.render(S, C);
+    if ((hud = (hud + 1) % 12)) return;
     eN.textContent = String(B.filter(d => !d.f).length).padStart(3, '0');
     eR.textContent = String(P.length).padStart(3, '0');
     eA.textContent = String(Math.round(Math.abs(az) * 57.3)).padStart(2, '0') + '°';
