@@ -20,7 +20,7 @@ async function go() {
   S.environment = pm.fromScene(new RoomEnvironment(), .02).texture;
 
   // ---------- car ----------
-  const gltf = await new GLTFLoader().loadAsync('models/car.glb', e => {
+  const gltf = await new GLTFLoader().loadAsync('models/car.glb?v=1', e => {
     if (e.total) ld.textContent = 'Завантаження ' + String(Math.round(e.loaded / e.total * 100)).padStart(3, '0') + ' / 100';
   });
   const car = gltf.scene, grp = new T.Group(); grp.add(car); S.add(grp);
@@ -131,21 +131,22 @@ async function go() {
   B.forEach(b => b.a = 1); P.forEach(p => p.r = p.g);
 
   // ---------- camera, scroll story & input ----------
-  const tr = document.getElementById('cerTrack');
+  const STEP = 5.5; let tl = 0;
+  const railFill = f => rail[step] && rail[step].style.setProperty('--f', f.toFixed(3));
   const hz = box.max.z * .42, hh = x => (sam(x, hz, q) ? q.h : box.max.y * .6);
   const K = [
     { t: new T.Vector3(0, box.max.y * .42, box.max.z * .18), az: .35, el: .42, d: 0 },
-    { t: new T.Vector3(-.5, hh(-.5), hz), az: -.6, el: .5, d: mob ? 4.2 : 3.5 },
-    { t: new T.Vector3(.5, hh(.5), hz), az: .6, el: .5, d: mob ? 4.2 : 3.5 },
+    { t: new T.Vector3(-.5, hh(-.5), hz), az: -.6, el: .5, m: mob ? .62 : .42 },
+    { t: new T.Vector3(.5, hh(.5), hz), az: .6, el: .5, m: mob ? .62 : .42 },
     { t: new T.Vector3(0, box.max.y * .42, box.max.z * .05), az: -.15, el: .5, d: 0 },
   ];
   const TX = [
-    ['01 — Дощ', 'вода<br>скочується сама', 'ліворуч від стрічки кераміка, праворуч голий лак. гортай далі або проведи по авто, щоб пішов дощ.'],
+    ['01 — Дощ', 'вода<br>скочується сама', 'ліворуч від стрічки кераміка, праворуч голий лак. торкнись авто, щоб пішов дощ.'],
     ['02 — Кераміка', 'вода збирається<br>в кульки', 'гідрофобний шар не дає воді зачепитись. кульки скочуються навіть із ледь похилого капота і забирають бруд із собою.'],
     ['03 — Голий лак', 'а тут вона<br>лежить плямами', 'без захисту вода розтікається і висихає на місці. звідси вапняні плями і матовий наліт після кожної мийки.'],
     ['04 — Мийка', 'одна мийка —<br>і все видно', 'ліва половина вже суха, права ні. проведи по авто, щоб полити ще, або запишись на кераміку.'],
   ];
-  const sw = document.getElementById('cSw'), eS = document.getElementById('cStep'), eH = document.getElementById('cH'), eP = document.getElementById('cP'), rail = [...st.querySelectorAll('.rail span')];
+  const sw = document.getElementById('cSw'), eS = document.getElementById('cStep'), eH = document.getElementById('cH'), eP = document.getElementById('cP'), rail = [...st.querySelectorAll('.rail button')];
   let step = 0, uaz = 0, uel = 0, down = false, lx = 0, ly = 0, last = -1e9, wash = 0, swT = 0;
   function setStep(k) {
     if (k === step) return; const prev = step; step = k;
@@ -155,6 +156,7 @@ async function go() {
     if (k === 3 && prev < 3) wash = 1.8;
     if (k < 3 && prev === 3) for (let i = 0; i < (mob ? 1400 : 2200); i++) drop();
   }
+  rail.forEach((r, i) => r.addEventListener('click', () => { tl = i * STEP + .01; }));
   const ray = new T.Raycaster(), ndc = new T.Vector2(), pp = new T.Vector3();
   function rain(cx, cy, n) {
     const r = st.getBoundingClientRect(); ndc.set((cx - r.left) / r.width * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
@@ -184,22 +186,20 @@ async function go() {
   });
   const wb = document.getElementById('cerWash');
   wb.addEventListener('click', () => { wash = 1.8; wb.classList.add('on'); setTimeout(() => wb.classList.remove('on'), 1800); });
-  const ease = f => f * f * (3 - 2 * f), wide = () => mob ? 6.4 / Math.min(1, C.aspect * 1.6) : 8.6 / Math.min(1, C.aspect * .75);
+  const ease = f => f * f * (3 - 2 * f), wide = () => mob ? 5.4 / Math.min(1, C.aspect * 1.6) : 8.6 / Math.min(1, C.aspect * .75);
   const tg = new T.Vector3(), tA = new T.Vector3();
   let az = .35, el = .42, dist = 8, first = true;
   function cam(n, dt) {
-    const r = tr.getBoundingClientRect(), span = Math.max(1, r.height - innerHeight);
-    const pr = Math.max(0, Math.min(1, -r.top / span)), s = pr * 3, i = Math.min(2, Math.floor(s));
-    const f = ease(Math.max(0, Math.min(1, (s - i - .15) / .7)));
-    setStep(Math.min(3, Math.floor(s + .35)));
-    const a = K[i], b = K[i + 1], da = a.d || wide(), db = b.d || wide();
-    tA.lerpVectors(a.t, b.t, f);
-    let taz = a.az + (b.az - a.az) * f, tel = a.el + (b.el - a.el) * f;
-    const td = da + (db - da) * f;
+    if (!still && dt > 0) tl += dt;
+    const k3 = ((Math.floor(tl / STEP) % 4) + 4) % 4 || 0; setStep(k3);
+    const a = K[k3]; tA.copy(a.t);
+    let taz = a.az, tel = a.el;
+    const td = wide() * (a.m || 1);
+    railFill(((tl % STEP) / STEP));
     if (!down && n - last > 3000) { uaz *= .97; uel *= .97; }
     if (!still) taz += .08 * Math.sin(n / 4200);
     taz += uaz; tel += uel;
-    const k = first ? 1 : 1 - Math.pow(.015, dt); first = false;
+    const k = first ? 1 : 1 - Math.pow(.3, dt); first = false;
     tg.lerp(tA, k); az += (taz - az) * k; el += (tel - el) * k; dist += (td - dist) * k;
     C.position.set(tg.x + Math.sin(az) * Math.cos(el) * dist, tg.y + Math.sin(el) * dist, tg.z + Math.cos(az) * Math.cos(el) * dist);
     C.lookAt(tg);
@@ -220,7 +220,7 @@ async function go() {
   ld.classList.add('off'); setTimeout(() => ld.style.display = 'none', 700);
   function frame(n) {
     requestAnimationFrame(frame); if (!on) { pt = n; return; }
-    const dt = Math.min(.05, (n - pt) / 1000); pt = n;
+    const dt = Math.max(0, Math.min(.05, (n - pt) / 1000)); pt = n;
     cam(n, dt);
 
     if (wash > 0) dry = 3.5; else dry = Math.max(0, dry - dt);
