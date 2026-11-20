@@ -452,8 +452,14 @@ document.querySelectorAll('.chips').forEach(g=>g.addEventListener('click',e=>{co
 document.querySelectorAll('[data-svc]').forEach(c=>c.addEventListener('click',()=>{const v=c.dataset.svc;document.querySelectorAll('[data-k="svc"] button').forEach(b=>b.classList.toggle('sel',b.textContent===v))}));
 const pick=k=>document.querySelector('[data-k="'+k+'"] .sel').textContent;
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();
+const LEAD_URL='';
+document.getElementById('f').addEventListener('submit',async e=>{e.preventDefault();
  const car=document.getElementById('car').value.trim(),tel=document.getElementById('tel').value.trim(),t=new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
+ const sb=e.target.querySelector('button.btn'),hint=e.target.querySelector('.hint');
+ if(LEAD_URL){sb.disabled=true;sb.style.opacity=.6;
+  let ok=false;try{const r=await fetch(LEAD_URL+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({car,tel,svc:pick('svc'),when:pick('when')})});ok=r.ok}catch(_){}
+  sb.disabled=false;sb.style.opacity='';
+  if(!ok){hint.textContent='Не вдалося надіслати. Спробуйте ще раз або подзвоніть: 066 141 1888';hint.style.color='var(--a)';return}}
  document.getElementById('msg').innerHTML='🔔 <b>Нова заявка</b><br>🚗 '+esc(car)+'<br>🛠 '+esc(pick('svc'))+'<br>📅 '+esc(pick('when'))+'<br>📞 '+esc(tel)+'<small>'+t+'</small>';
  document.getElementById('bk').classList.add('ok');document.getElementById('bar').style.display='none';
  document.getElementById('bk').scrollIntoView({behavior:'smooth',block:'center'});
