@@ -115,7 +115,7 @@ async function go() {
   let rolled = 0, dry = 0;
   function drop(px, pz) {
     const x = px ?? rnd(-fx, fx), z = pz ?? rnd(-fz, fz);
-    if (!sam(x, z, q) || q.ny < .6 || Math.abs(x) < .02 || edge(x, z, q.h)) return;
+    if (z < -fz * .2 || !sam(x, z, q) || q.ny < .6 || Math.abs(x) < .02 || edge(x, z, q.h)) return;
     if (x < 0) {
       if (dry > 0 && px === undefined) return;
       if (B.length < NB) B.push({ x, z, vx: 0, vz: 0, r: rnd(.011, .03), a: 0, f: 0, y: q.h, vy: 0, nx: q.nx, ny: q.ny, nz: q.nz });
@@ -230,7 +230,7 @@ async function go() {
     for (let i = B.length - 1; i >= 0; i--) {
       const d = B[i]; d.a = Math.min(1, d.a + dt * 6);
       if (d.f) {
-        d.vy -= 9.8 * dt; d.y += d.vy * dt; d.x += d.vx * dt; d.z += d.vz * dt; d.a -= dt * 1.4;
+        d.a -= dt * 10;
         if (d.y < 0 || d.a <= 0) B.splice(i, 1); continue;
       }
       if (!sam(d.x, d.z, q) || q.ny < .5) { d.f = 1; rolled++; continue; }
