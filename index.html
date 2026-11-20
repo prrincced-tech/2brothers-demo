@@ -72,7 +72,7 @@ h2{font-size:clamp(34px,5.2vw,72px)}
 @media(max-width:900px){.cer .stage{touch-action:auto;cursor:default;height:auto;min-height:0;max-height:none;display:grid;grid-template-columns:1fr auto;grid-template-areas:"tl rail" "txt txt" "view view" "act act" "cr cr";align-items:center;row-gap:12px;padding:24px 16px 32px}
 .cer .stage:after{display:none}.cer .ov{position:static;transform:none}.cer .tl{grid-area:tl}.cer .rail{grid-area:rail;flex-direction:row;gap:14px}.cer .rail button{flex-direction:column;gap:4px;min-height:44px;justify-content:center}.cer .rail button:after{width:22px}
 .cer .tr,.cer .br{display:none}.cer .bl{display:contents}.cer .sw{grid-area:txt}.cer .act{grid-area:act;gap:18px}
-.cer .view{position:relative;inset:auto;grid-area:view;height:min(78vw,360px);margin:0 -16px}.cer .ld{position:relative;inset:auto;grid-area:view;height:auto}
+.cer .view{position:relative;inset:auto;grid-area:view;height:min(92vw,420px);margin:0 -16px}.cer .ld{position:relative;inset:auto;grid-area:view;height:auto}
 .cer h2.t{font-size:36px;margin:6px 0 8px}.cer p.s{font-size:14px;line-height:1.45;min-height:5.8em;margin:0}
 .cer .cr{grid-area:cr;position:static;transform:none;white-space:normal;text-align:center;font-size:9px}}
 .hero .side{opacity:0;animation:fade .8s .45s var(--ease) forwards}
@@ -461,6 +461,6 @@ new IntersectionObserver(([e])=>on=e.isIntersecting).observe(h);
 (function f(n){requestAnimationFrame(f);if(!on)return;if(n-m>2500)t=50+55*Math.sin(n/2600);x+=(t-x)*.06;l.style.setProperty('--x',x.toFixed(1)+'%');X.textContent=String(Math.round(Math.max(0,Math.min(100,x)))).padStart(3,'0')})(0);
 })();
 </script>
-<script type="module" src="cer.js?v=9"></script>
+<script type="module" src="cer.js?v=10"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ async function go() {
   const mob = matchMedia('(max-width:900px)').matches, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const R = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-  R.setPixelRatio(Math.min(devicePixelRatio, mob ? 2 : 1.75));
+  R.setPixelRatio(Math.min(devicePixelRatio, mob ? 2.5 : 1.75));
   R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
   const view = document.getElementById('cerView'); view.appendChild(R.domElement);
   const S = new T.Scene(), C = new T.PerspectiveCamera(mob ? 36 : 28, 1, .05, 60);
@@ -60,7 +60,7 @@ async function go() {
 
   // ---------- heightfield of the top surfaces (GPU, top-down) ----------
   const fx = box.max.x + .05, fz = box.max.z + .05, y1 = box.max.y + .01;
-  const GX = mob ? 180 : 240, GZ = Math.round(GX * fz / fx);
+  const GX = 240, GZ = Math.round(GX * fz / fx);
   const hm = new T.ShaderMaterial({
     uniforms: { y1: { value: y1 }, mode: { value: 0 } }, side: T.DoubleSide,
     vertexShader: 'varying vec3 n;varying float wy;void main(){vec4 w=modelMatrix*vec4(position,1.);wy=w.y;n=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*w;}',
@@ -106,7 +106,7 @@ async function go() {
   // ---------- water ----------
   const water = new T.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: .012, ior: 1.33, specularIntensity: 1, envMapIntensity: .9 });
   const key = new T.DirectionalLight(0xffffff, 3); key.position.set(-2, 6, 4); S.add(key);
-  const bg = new T.SphereGeometry(1, mob ? 14 : 22, mob ? 9 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
+  const bg = new T.SphereGeometry(1, mob ? 20 : 22, mob ? 12 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
   const pg = new T.SphereGeometry(1, mob ? 16 : 26, mob ? 6 : 10, 0, Math.PI * 2, 0, 1.25); pg.translate(0, -Math.cos(1.25), 0);
   const NB = mob ? 240 : 650, NP = mob ? 220 : 600;
   const beads = new T.InstancedMesh(bg, water, NB), pud = new T.InstancedMesh(pg, water, NP);
@@ -134,8 +134,8 @@ async function go() {
   const hz = box.max.z * .42, hh = x => (sam(x, hz, q) ? q.h : box.max.y * .6);
   const K = [
     { t: new T.Vector3(0, box.max.y * .42, box.max.z * .18), az: .35, el: .42, d: 0 },
-    { t: new T.Vector3(-.5, hh(-.5), hz), az: -.6, el: .5, m: mob ? .62 : .42 },
-    { t: new T.Vector3(.5, hh(.5), hz), az: .6, el: .5, m: mob ? .62 : .42 },
+    { t: new T.Vector3(-.5, hh(-.5), hz), az: -.6, el: .5, m: mob ? .58 : .42 },
+    { t: new T.Vector3(.5, hh(.5), hz), az: .6, el: .5, m: mob ? .58 : .42 },
     { t: new T.Vector3(0, box.max.y * .42, box.max.z * .05), az: -.15, el: .5, d: 0 },
   ];
   const TX = [
@@ -184,7 +184,7 @@ async function go() {
   });
   const wb = document.getElementById('cerWash');
   wb.addEventListener('click', () => { wash = 1.8; wb.classList.add('on'); setTimeout(() => wb.classList.remove('on'), 1800); });
-  const ease = f => f * f * (3 - 2 * f), wide = () => mob ? 5.4 / Math.min(1, C.aspect * 1.6) : 8.6 / Math.min(1, C.aspect * .75);
+  const ease = f => f * f * (3 - 2 * f), wide = () => mob ? 4.3 / Math.min(1, C.aspect * 1.6) : 8.6 / Math.min(1, C.aspect * .75);
   const tg = new T.Vector3(), tA = new T.Vector3();
   let az = .35, el = .42, dist = 8, first = true;
   function cam(n, dt) {
