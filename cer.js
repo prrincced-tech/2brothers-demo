@@ -1,0 +1,216 @@
+// 2 Brothers — ceramic vs bare clearcoat water demo
+const st = document.getElementById('cerStage'), ld = document.getElementById('cerLoad');
+let started = false;
+new IntersectionObserver(([e]) => {
+  if (e.isIntersecting && !started) { started = true; go().catch(err => { console.warn(err); ld.textContent = '3D недоступне на цьому пристрої'; }); }
+}, { rootMargin: '400px' }).observe(st);
+
+async function go() {
+  const T = await import('three');
+  const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+  const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+  const mob = matchMedia('(max-width:900px)').matches, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const R = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+  R.setPixelRatio(Math.min(devicePixelRatio, mob ? 1.5 : 1.75));
+  R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
+  st.prepend(R.domElement);
+  const S = new T.Scene(), C = new T.PerspectiveCamera(mob ? 36 : 28, 1, .05, 60);
+  const pm = new T.PMREMGenerator(R);
+  S.environment = pm.fromScene(new RoomEnvironment(), .02).texture;
+
+  // ---------- car ----------
+  const gltf = await new GLTFLoader().loadAsync('models/car.glb', e => {
+    if (e.total) ld.textContent = 'Завантаження ' + String(Math.round(e.loaded / e.total * 100)).padStart(3, '0') + ' / 100';
+  });
+  const car = gltf.scene, grp = new T.Group(); grp.add(car); S.add(grp);
+  let box = new T.Box3().setFromObject(car), sz = box.getSize(new T.Vector3());
+  if (sz.x > sz.z) car.rotation.y = Math.PI / 2;
+  car.updateMatrixWorld(true);
+  const hl = car.getObjectByName('BodyHeadlights');
+  if (hl) {
+    const a = new T.Box3().setFromObject(hl).getCenter(new T.Vector3()), b = new T.Box3().setFromObject(car).getCenter(new T.Vector3());
+    if (a.z < b.z) car.rotation.y += Math.PI;
+  }
+  car.updateMatrixWorld(true);
+  box.setFromObject(car); sz = box.getSize(new T.Vector3());
+  car.scale.multiplyScalar(4.4 / sz.z); car.updateMatrixWorld(true);
+  box.setFromObject(car);
+  const ctr = box.getCenter(new T.Vector3());
+  car.position.x -= ctr.x; car.position.z -= ctr.z; car.position.y -= box.min.y; car.updateMatrixWorld(true);
+  box.setFromObject(car);
+
+  const paint = new T.MeshPhysicalMaterial({ color: 0x0b0c0e, metalness: .55, roughness: .4, clearcoat: 1, clearcoatRoughness: .015, envMapIntensity: 1.25 });
+  const glass = new T.MeshPhysicalMaterial({ color: 0x040506, metalness: 0, roughness: .02, clearcoat: 1, envMapIntensity: 1.5 });
+  const body = [];
+  car.traverse(o => {
+    if (!o.isMesh) return;
+    const n = (o.material && o.material.name) || '';
+    if (/^Paint|Panel Sides/.test(n)) { o.material = paint; if (!/Mirror/i.test(o.name)) body.push(o); }
+    else if (/Glass/i.test(n)) { o.material = glass; body.push(o); }
+    else if (o.material && o.material.transmission) o.material.transmission = 0;
+  });
+
+  // soft contact shadow
+  const cv = document.createElement('canvas'); cv.width = cv.height = 128;
+  const g2 = cv.getContext('2d'), gr = g2.createRadialGradient(64, 64, 8, 64, 64, 64);
+  gr.addColorStop(0, 'rgba(0,0,0,.85)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g2.fillStyle = gr; g2.fillRect(0, 0, 128, 128);
+  const sh = new T.Mesh(new T.PlaneGeometry(sz.x * 1.0 * (4.4 / sz.z) + 1.2, 5.6), new T.MeshBasicMaterial({ map: new T.CanvasTexture(cv), transparent: true, depthWrite: false }));
+  sh.rotation.x = -Math.PI / 2; sh.position.y = .002; S.add(sh);
+
+  // ---------- heightfield of the top surfaces (GPU, top-down) ----------
+  const fx = box.max.x + .05, fz = box.max.z + .05, y1 = box.max.y + .01;
+  const GX = mob ? 180 : 240, GZ = Math.round(GX * fz / fx);
+  const hm = new T.ShaderMaterial({
+    uniforms: { y1: { value: y1 }, mode: { value: 0 } }, side: T.DoubleSide,
+    vertexShader: 'varying vec3 n;varying float wy;void main(){vec4 w=modelMatrix*vec4(position,1.);wy=w.y;n=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*w;}',
+    fragmentShader: 'uniform float y1;uniform int mode;varying vec3 n;varying float wy;void main(){vec3 m=normalize(n);if(!gl_FrontFacing)m=-m;if(mode==0){gl_FragColor=vec4(m*.5+.5,1.);}else{float h=clamp(wy/y1,0.,1.)*65535.;gl_FragColor=vec4(floor(h/256.)/255.,mod(h,256.)/255.,0.,1.);}}'
+  });
+  const oc = new T.OrthographicCamera(-fx, fx, fz, -fz, .1, 20); oc.position.set(0, 10, 0); oc.up.set(0, 0, -1); oc.lookAt(0, 0, 0);
+  const rt = new T.WebGLRenderTarget(GX, GZ), nrm = new Uint8Array(GX * GZ * 4), hgt = new Uint8Array(GX * GZ * 4);
+  const vis = []; S.traverse(o => { if (o.isMesh) { vis.push([o, o.visible]); if (!body.includes(o)) o.visible = false; } });
+  const envKeep = S.environment; S.overrideMaterial = hm; R.setClearColor(0, 0);
+  for (const [mode, buf] of [[0, nrm], [1, hgt]]) {
+    hm.uniforms.mode.value = mode; R.setRenderTarget(rt); R.clear(); R.render(S, oc); R.readRenderTargetPixels(rt, 0, 0, GX, GZ, buf);
+  }
+  R.setRenderTarget(null); S.overrideMaterial = null; S.environment = envKeep; vis.forEach(([o, v]) => o.visible = v); rt.dispose();
+  const N0 = new T.Vector3();
+  function sam(x, z, out) {
+    const i = Math.floor((x + fx) / (2 * fx) * GX), j = Math.floor((fz - z) / (2 * fz) * GZ);
+    if (i < 0 || j < 0 || i >= GX || j >= GZ) return false;
+    const k = (j * GX + i) * 4;
+    if (nrm[k + 3] < 128) return false;
+    out.h = (hgt[k] * 256 + hgt[k + 1]) / 65535 * y1;
+    out.nx = nrm[k] / 127.5 - 1; out.ny = nrm[k + 1] / 127.5 - 1; out.nz = nrm[k + 2] / 127.5 - 1;
+    return out.ny > .2;
+  }
+
+  const q2 = {};
+  function edge(x, z, h) { for (const [a, b] of [[.045, 0], [-.045, 0], [0, .045], [0, -.045]]) if (!sam(x + a, z + b, q2) || Math.abs(q2.h - h) > .025) return true; return false; }
+
+  // ---------- masking tape along the centre line ----------
+  {
+    const pos = [], idx = [], q = {}; let prev = -1;
+    for (let j = 0; j < GZ; j++) {
+      const z = fz - (j + .5) / GZ * 2 * fz;
+      if (!sam(0, z, q) || q.ny < .35) { prev = -1; continue; }
+      const v = pos.length / 3, y = q.h + .0025;
+      pos.push(-.01, y, z, .01, y, z);
+      if (prev >= 0) idx.push(prev, prev + 1, v, prev + 1, v + 1, v);
+      prev = v;
+    }
+    const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
+    S.add(new T.Mesh(g, new T.MeshStandardMaterial({ color: 0xa89f88, roughness: .9, side: T.DoubleSide })));
+  }
+
+  // ---------- water ----------
+  const water = new T.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: .012, ior: 1.33, specularIntensity: 1, envMapIntensity: .9 });
+  const key = new T.DirectionalLight(0xffffff, 3); key.position.set(-2, 6, 4); S.add(key);
+  const bg = new T.SphereGeometry(1, mob ? 16 : 22, mob ? 10 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
+  const pg = new T.SphereGeometry(1, mob ? 22 : 30, 8, 0, Math.PI * 2, 0, 1.0); pg.translate(0, -Math.cos(1.0), 0);
+  const NB = mob ? 380 : 650, NP = mob ? 260 : 420;
+  const beads = new T.InstancedMesh(bg, water, NB), pud = new T.InstancedMesh(pg, water.clone(), NP);
+  beads.frustumCulled = pud.frustumCulled = false; pud.material.envMapIntensity = 2.2; pud.material.thickness = .004; S.add(beads, pud);
+  const B = [], P = [], rnd = (a, b) => a + Math.random() * (b - a), q = {};
+  let rolled = 0;
+  function drop() {
+    const x = rnd(-fx, fx), z = rnd(-fz, fz);
+    if (!sam(x, z, q) || q.ny < .6 || Math.abs(x) < .02 || edge(x, z, q.h)) return;
+    if (x < 0) {
+      if (B.length < NB) B.push({ x, z, vx: 0, vz: 0, r: rnd(.011, .03), a: 0, f: 0, y: q.h, vy: 0, nx: q.nx, ny: q.ny, nz: q.nz });
+    } else {
+      for (const p of P) if (Math.hypot(p.x - x, p.z - z) < p.r * 1.1 + .025) { p.g = Math.min(.16, p.g + .008); return; }
+      if (P.length < NP) P.push({ x, z, r: 0, g: rnd(.014, .045), e: rnd(.6, 1.6), t: rnd(0, 6.28), y: q.h, nx: q.nx, ny: q.ny, nz: q.nz });
+    }
+  }
+  for (let i = 0; i < (mob ? 2600 : 4200); i++) drop();
+  B.forEach(b => b.a = 1); P.forEach(p => p.r = p.g);
+
+  // ---------- camera & input ----------
+  const tgt = new T.Vector3(0, box.max.y * .42, box.max.z * .18);
+  let az = .35, el = .42, taz = az, tel = el, down = false, lx = 0, ly = 0, last = -1e9, wash = 0;
+  st.addEventListener('pointerdown', e => { if (e.target.closest('button,a')) return; down = true; lx = e.clientX; ly = e.clientY; last = performance.now(); });
+  addEventListener('pointerup', () => down = false); addEventListener('pointercancel', () => down = false);
+  st.addEventListener('pointermove', e => {
+    if (!down) return;
+    taz = Math.max(-1.25, Math.min(1.25, taz - (e.clientX - lx) * .006));
+    if (e.pointerType === 'mouse') tel = Math.max(.16, Math.min(.85, tel + (e.clientY - ly) * .004));
+    lx = e.clientX; ly = e.clientY; last = performance.now();
+  });
+  const wb = document.getElementById('cerWash');
+  wb.addEventListener('click', () => { wash = 1.8; wb.classList.add('on'); setTimeout(() => wb.classList.remove('on'), 1800); });
+
+  function size() {
+    const w = st.clientWidth, h = st.clientHeight; R.setSize(w, h, false); C.aspect = w / h;
+    if (mob) C.setViewOffset(w, h, 0, h * .13, w, h); else C.setViewOffset(w, h, -w * .15, h * .02, w, h);
+    C.updateProjectionMatrix();
+  }
+  new ResizeObserver(size).observe(st); size();
+  let on = true; new IntersectionObserver(([e]) => on = e.isIntersecting).observe(st);
+
+  // ---------- loop ----------
+  const o = new T.Object3D(), UP = new T.Vector3(0, 1, 0), nv = new T.Vector3(), qr = new T.Quaternion();
+  const eN = document.getElementById('cN'), eR = document.getElementById('cR'), eA = document.getElementById('cA');
+  let pt = performance.now(), acc = 0;
+  ld.classList.add('off'); setTimeout(() => ld.style.display = 'none', 700);
+  function frame(n) {
+    requestAnimationFrame(frame); if (!on) { pt = n; return; }
+    const dt = Math.min(.05, (n - pt) / 1000); pt = n;
+    if (!down && n - last > 3000 && !still) { taz = .55 * Math.sin(n / 5200); tel = .42 + .06 * Math.sin(n / 7100); }
+    az += (taz - az) * .06; el += (tel - el) * .06;
+    const dist = mob ? 6.4 / Math.min(1, C.aspect * 1.6) : 8.6 / Math.min(1, C.aspect * .75);
+    C.position.set(tgt.x + Math.sin(az) * Math.cos(el) * dist, tgt.y + Math.sin(el) * dist, tgt.z + Math.cos(az) * Math.cos(el) * dist);
+    C.lookAt(tgt);
+
+    wash = Math.max(0, wash - dt);
+    acc += dt * (wash > 0 ? (mob ? 160 : 260) : (still ? 0 : (mob ? 10 : 16)));
+    while (acc > 1) { acc--; drop(); }
+
+    // ceramic beads
+    for (let i = B.length - 1; i >= 0; i--) {
+      const d = B[i]; d.a = Math.min(1, d.a + dt * 6);
+      if (d.f) {
+        d.vy -= 9.8 * dt; d.y += d.vy * dt; d.x += d.vx * dt; d.z += d.vz * dt; d.a -= dt * 1.4;
+        if (d.y < 0 || d.a <= 0) B.splice(i, 1); continue;
+      }
+      if (!sam(d.x, d.z, q) || q.ny < .5) { d.f = 1; rolled++; continue; }
+      const sl = Math.hypot(q.nx, q.nz);
+      if (wash > 0 || sl > .16) {
+        const k = wash > 0 ? 2.2 : 3.2, dx = sl > .02 ? q.nx / sl : 0, dz = sl > .02 ? q.nz / sl : 1;
+        d.vx += (wash > 0 ? dx * k : q.nx * k) * dt; d.vz += (wash > 0 ? dz * k : q.nz * k) * dt;
+      } else { d.vx *= .8; d.vz *= .8; }
+      d.vx *= Math.pow(.25, dt); d.vz *= Math.pow(.25, dt);
+      const nx = d.x + d.vx * dt, nz = d.z + d.vz * dt, ph = q.h;
+      if (nx > -.02 || !sam(nx, nz, q) || q.ny < .5 || ph - q.h > .05 || edge(nx, nz, q.h)) { d.f = 1; d.vy = 0; rolled++; if (nx > -.02) { d.f = 0; d.vx = -Math.abs(d.vx) * .3; } continue; }
+      d.x = nx; d.z = nz; d.y = q.h; d.nx = q.nx; d.ny = q.ny; d.nz = q.nz;
+    }
+    // bare clearcoat puddles: stick, spread, barely move
+    for (let i = P.length - 1; i >= 0; i--) {
+      const p = P[i]; p.r += (p.g - p.r) * Math.min(1, dt * 3);
+      if (wash > 0) p.g = Math.min(.18, p.g + dt * .012);
+      if (sam(p.x, p.z, q)) {
+        const sl = Math.hypot(q.nx, q.nz);
+        if (sl > .55) { p.x += q.nx * dt * .01; p.z += q.nz * dt * .01; }
+        if (p.x < .03) p.x = .03;
+        p.y = q.h; p.nx = q.nx; p.ny = q.ny; p.nz = q.nz;
+      }
+    }
+
+    B.forEach((d, i) => {
+      nv.set(d.nx, d.ny, d.nz).normalize(); o.quaternion.setFromUnitVectors(UP, nv);
+      o.position.set(d.x, d.y + .0008, d.z); const r = d.r * (.3 + .7 * Math.max(0, d.a)); o.scale.set(r, r * .92, r);
+      o.updateMatrix(); beads.setMatrixAt(i, o.matrix);
+    });
+    P.forEach((p, i) => {
+      nv.set(p.nx, p.ny, p.nz).normalize(); o.quaternion.setFromUnitVectors(UP, nv); qr.setFromAxisAngle(UP, p.t); o.quaternion.multiply(qr);
+      o.position.set(p.x, p.y + .0006, p.z); o.scale.set(p.r * p.e, Math.min(.02, p.r * .4), p.r / p.e);
+      o.updateMatrix(); pud.setMatrixAt(i, o.matrix);
+    });
+    beads.count = B.length; pud.count = P.length; beads.instanceMatrix.needsUpdate = pud.instanceMatrix.needsUpdate = true;
+    R.render(S, C);
+    eN.textContent = String(B.length + P.length).padStart(4, '0');
+    eR.textContent = String(rolled).padStart(4, '0');
+    eA.textContent = String(Math.round(Math.abs(az) * 57.3)).padStart(2, '0') + '°';
+  }
+  requestAnimationFrame(frame);
+}

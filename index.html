@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#121315">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%23D8363C%27/%3E%3Ctext x=%2732%27 y=%2742%27 font-family=%27Arial%27 font-weight=%27900%27 font-size=%2728%27 text-anchor=%27middle%27 fill=%27white%27%3E2B%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400&family=Inter+Tight:wght@300;400&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/oct2.jpg">
 <style>
 :root{--bg:#121315;--s1:#191A1D;--s2:#212226;--line:rgba(255,255,255,.07);--fg:#EDEAE4;--mut:#9A968F;--a:#D8363C;--led:rgba(235,240,255,.9);--ease:cubic-bezier(.2,.7,.1,1);color-scheme:dark}
@@ -53,11 +53,18 @@ h2{font-size:clamp(34px,5.2vw,72px)}
 .hud b{font-weight:400;color:var(--fg)}.hud i{font-style:normal;color:var(--a)}
 .hud.tl{position:static;grid-column:1/-1;margin-bottom:-14px}
 @media(max-width:900px){.hud.br{display:none}.hud.tl{margin-bottom:-6px}}.hud.br{bottom:24px;right:24px;text-align:right}
-.drop{padding-bottom:0}.drop .stage{position:relative;height:min(78svh,720px);min-height:460px;margin-top:8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);touch-action:pan-y;cursor:grab;background:radial-gradient(120% 80% at 50% 0%,#1d1f23,#121315 70%)}
-.drop canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.drop .hud{opacity:1;animation:none;z-index:2}.drop .hud.l{top:20px;left:24px}.drop .hud.r{top:20px;right:24px;text-align:right}.drop .hud.b{bottom:18px;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}
-.drop .hint{position:absolute;left:24px;bottom:18px;z-index:2;font-size:13px;color:var(--mut)}
-@media(max-width:900px){.drop .stage{height:72svh;min-height:420px}.drop .hud.l{left:16px;top:14px}.drop .hud.r{right:16px;top:14px}.drop .hint{display:none}.drop .hud.b{bottom:14px}}
+.cer{padding:0}.cer .stage{position:relative;height:100svh;min-height:620px;max-height:1000px;overflow:hidden;touch-action:pan-y;cursor:grab;background:radial-gradient(90% 70% at 62% 42%,#1d1f23,#121315 72%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cer .stage:active{cursor:grabbing}.cer canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cer .m{font:400 11px/1.7 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(237,234,228,.58)}.cer .m b{font-weight:400;color:var(--fg)}
+.cer .ov{position:absolute;z-index:2;pointer-events:none}.cer .tl,.cer .bl{left:max(24px,calc((100% - 1240px)/2 + 24px))}.cer .tl{top:96px}.cer .tr{top:96px;right:24px;text-align:right}.cer .br{right:24px;bottom:40px;text-align:right}
+.cer .bl{bottom:40px;max-width:520px;pointer-events:auto}
+.cer h2.t{font:300 clamp(46px,6vw,92px)/.95 'Inter Tight',system-ui,sans-serif;letter-spacing:-.045em;margin:14px 0 18px}
+.cer p.s{font:400 15px/1.55 'Inter Tight',system-ui,sans-serif;color:rgba(237,234,228,.58);max-width:40ch;margin:0 0 14px}
+.cer .wash{display:inline-flex;align-items:center;gap:12px;background:none;border:0;padding:12px 0;min-height:44px;cursor:pointer;color:var(--fg)}.cer .wash:before{content:"";width:32px;height:1px;background:var(--a);transition:width .3s var(--ease)}.cer .wash:hover:before,.cer .wash.on:before{width:60px}
+.cer .wash:focus-visible{outline:1px solid var(--a);outline-offset:4px}
+.cer .ld{position:absolute;inset:0;display:grid;place-items:center;z-index:1;transition:opacity .6s;pointer-events:none}.cer .ld.off{opacity:0}
+.cer .cr{position:absolute;z-index:2;left:50%;bottom:12px;transform:translateX(-50%);font:400 10px/1.4 'JetBrains Mono',monospace;letter-spacing:.06em;color:rgba(237,234,228,.32);white-space:nowrap}.cer .cr a{color:inherit}
+@media(max-width:900px){.cer .stage{height:94svh;min-height:600px}.cer .tl,.cer .bl{left:16px}.cer .tl{top:88px}.cer .bl{right:16px;bottom:30px}.cer .tr{display:none}.cer .br{right:16px;top:88px;bottom:auto}.cer h2.t{font-size:46px;margin:10px 0 12px}.cer p.s{font-size:14px}.cer .cr{bottom:8px;font-size:9px}}
 .hero .side{opacity:0;animation:fade .8s .45s var(--ease) forwards}
 .hero .side p{color:#D9D5CF;font-size:18px;max-width:38ch}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
@@ -232,6 +239,7 @@ footer b{color:var(--fg)}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero img{transform:none}.hero h1 span b{transform:none}.hero .side{opacity:1}.bub,.tgc{opacity:1;transform:none}}
 </style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body>
 
@@ -281,14 +289,18 @@ footer b{color:var(--fg)}
  </div>
 </div></section>
 
-<section id="ceramic" class="drop"><div class="wrap">
- <div class="head"><div><div class="k">Кераміка</div><h2 style="margin-top:16px">Вода скочується<br>сама</h2></div><p>Ліворуч кераміка, праворуч голий лак. Нахиліть капот мишею або проведіть пальцем.</p></div>
-</div>
- <div class="stage" id="dropStage" aria-label="Інтерактивна демонстрація: краплі води на капоті з керамікою і без">
-  <div class="hud l" aria-hidden="true"><b>З керамікою</b><br>кут скочування 8°</div>
-  <div class="hud r" aria-hidden="true"><b>Без захисту</b><br>вода тримається</div>
-  <div class="hud b" aria-hidden="true">Нахил <b id="dTilt">00°</b> · крапель <b id="dCount">000</b></div>
-  <div class="hint">Клік додає дощ</div>
+<section id="ceramic" class="cer">
+ <div class="stage" id="cerStage" aria-label="3D-демонстрація: краплі води на авто з керамікою зліва і без захисту справа">
+  <div class="ld m" id="cerLoad">Завантаження 000 / 100</div>
+  <div class="ov tl m">04 — Кераміка</div>
+  <div class="ov tr m"><b>←</b> кераміка 9H<br>голий лак <b>→</b></div>
+  <div class="ov br m">Крапель <b id="cN">0000</b><br>Скотилось <b id="cR">0000</b><br>Камера <b id="cA">00°</b></div>
+  <div class="ov bl">
+   <h2 class="t">вода<br>скочується сама</h2>
+   <p class="s">ліворуч від стрічки кераміка, праворуч голий лак. потягни, щоб обійти авто.</p>
+   <button class="wash m" id="cerWash" type="button"><b>Полити водою</b></button>
+  </div>
+  <div class="cr">3D: <a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept" target="_blank" rel="noopener">CarConcept</a> © DGG, Eric Chadwick · CC BY 4.0</div>
  </div>
 </section>
 
@@ -432,57 +444,6 @@ new IntersectionObserver(([e])=>on=e.isIntersecting).observe(h);
 (function f(n){requestAnimationFrame(f);if(!on)return;if(n-m>2500)t=50+55*Math.sin(n/2600);x+=(t-x)*.06;l.style.setProperty('--x',x.toFixed(1)+'%');X.textContent=String(Math.round(Math.max(0,Math.min(100,x)))).padStart(3,'0')})(0);
 })();
 </script>
-<script type="module">
-const st=document.getElementById('dropStage');let started=false;
-new IntersectionObserver(([e])=>{if(e.isIntersecting&&!started){started=true;go()}},{rootMargin:'300px'}).observe(st);
-async function go(){
-let T;try{T=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js')}catch(e){return}
-const mob=matchMedia('(max-width:900px)').matches,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let R;try{R=new T.WebGLRenderer({antialias:!mob||devicePixelRatio<2,alpha:true,powerPreference:'high-performance'})}catch(e){return}
-R.setPixelRatio(Math.min(devicePixelRatio,mob?1.5:2));R.toneMapping=T.ACESFilmicToneMapping;R.outputColorSpace=T.SRGBColorSpace;st.prepend(R.domElement);
-const S=new T.Scene(),C=new T.PerspectiveCamera(32,1,.1,100);
-const E=new T.Scene();E.background=new T.Color(0x07080a);
-const lm=new T.MeshBasicMaterial({color:0xc4c8d0});
-for(let i=-3;i<=3;i++){const b=new T.Mesh(new T.BoxGeometry(22,.35,.5),lm);b.position.set(0,9,i*2.6);E.add(b)}
-for(let i=-2;i<=2;i++){const b=new T.Mesh(new T.BoxGeometry(.3,.35,18),lm);b.position.set(i*5,9,0);E.add(b)}
-
-const L=new T.DirectionalLight(0xffffff,2.2);L.position.set(-3,8,4);S.add(L);S.add(new T.AmbientLight(0xffffff,.15));const pm=new T.PMREMGenerator(R),env=pm.fromScene(E,0,.1,60).texture;S.environment=env;
-const mobV=matchMedia('(max-width:900px)').matches,W=12,D=8,V=mobV?3.8:6.4,crown=x=>-.02*x*x;
-const hood=new T.Group();S.add(hood);
-function half(x0,x1,rough){const g=new T.PlaneGeometry(x1-x0,D,40,10);g.rotateX(-Math.PI/2);g.translate((x0+x1)/2,0,0);const p=g.attributes.position;for(let i=0;i<p.count;i++)p.setY(i,crown(p.getX(i)));g.computeVertexNormals();
-const m=new T.Mesh(g,new T.MeshPhysicalMaterial({color:0x23252a,metalness:.6,roughness:rough,clearcoat:1,clearcoatRoughness:rough*.6,envMapIntensity:1.1}));hood.add(m)}
-half(-W/2,0,.04);half(0,W/2,.3);
-const tape=new T.Mesh(new T.PlaneGeometry(.07,D),new T.MeshStandardMaterial({color:0xd9d2c3,roughness:.9}));tape.rotation.x=-Math.PI/2;tape.position.y=.004;hood.add(tape);
-const dm=new T.MeshPhysicalMaterial({color:0xffffff,metalness:0,roughness:0,clearcoat:1,transparent:true,opacity:.6,envMapIntensity:3});const pmat=dm.clone();pmat.opacity=.16;pmat.envMapIntensity=1.6;
-const N=mob?160:240,M=mob?40:60,sg=new T.SphereGeometry(1,mob?14:20,mob?10:14);
-const beads=new T.InstancedMesh(sg,dm,N),sheets=new T.InstancedMesh(sg,pmat,M);hood.add(beads,sheets);
-const B=[],P=[],o=new T.Object3D(),rnd=(a,b)=>a+Math.random()*(b-a);
-function add(x,z){if(x<0){if(B.length>=N)B.shift();B.push({x,z,vx:0,vz:0,r:rnd(.035,.09),a:0})}else{if(P.length>=M)P.shift();P.push({x,z,vx:0,vz:0,r:rnd(.06,.1),s:1,a:0,q:rnd(0,3.14),e:rnd(.7,1.4)})}}
-const zx=()=>rnd(-V/2,V/2),Z=mobV?1.7:D/2.6,zz=()=>rnd(-Z,Z);for(let i=0;i<(mob?120:180);i++)add(-rnd(.1,V/2),zz());for(let i=0;i<(mob?22:30);i++)add(rnd(.15,V/2),zz());
-P.forEach(p=>p.s=rnd(1.5,2.6));
-let tx=0,ty=0,gx=0,gy=0,last=-1e9,down=false;
-const aim=e=>{const r=st.getBoundingClientRect();gx=((e.clientX-r.left)/r.width-.5)*2;gy=((e.clientY-r.top)/r.height-.5)*2;last=performance.now()};
-st.addEventListener('pointermove',aim);st.addEventListener('pointerdown',e=>{aim(e);down=true;if(e.pointerType==='mouse')for(let i=0;i<20;i++)add(zx(),zz())});
-addEventListener('pointerup',()=>down=false);
-const tEl=document.getElementById('dTilt'),cEl=document.getElementById('dCount');
-function size(){const w=st.clientWidth,h=st.clientHeight;R.setSize(w,h,false);C.aspect=w/h;const d=Math.max((V*.5)/Math.tan(C.fov*Math.PI/360)/C.aspect,(D*.32)/Math.tan(C.fov*Math.PI/360));C.position.set(0,d*.66,d*.78);C.lookAt(0,-.25,.35);C.updateProjectionMatrix()}
-new ResizeObserver(size).observe(st);size();
-let vis=true,rain=0,pt=performance.now();new IntersectionObserver(([e])=>vis=e.isIntersecting).observe(st);
-function frame(n){requestAnimationFrame(frame);if(!vis)return;const dt=Math.min(.05,(n-pt)/1000);pt=n;
-if(n-last>2500&&!still){gx=Math.sin(n/2300)**3*.9;gy=Math.sin(n/3100)**3*.5}
-tx+=(gx-tx)*.07;ty+=(gy-ty)*.07;hood.rotation.z=-tx*.16;hood.rotation.x=ty*.1;
-rain+=dt;if(!still&&rain>(mob?.08:.05)){rain=0;add(zx(),zz());add(-rnd(.1,V/2),zz())}
-const k=dt*60;
-for(let i=B.length-1;i>=0;i--){const d=B[i];d.a=Math.min(1,d.a+dt*5);const g=Math.hypot(tx,ty);if(g>.42){d.vx+=tx*.0009*k;d.vz+=ty*.0009*k}else{d.vx*=.8;d.vz*=.8}d.vx*=.975;d.vz*=.975;d.x+=d.vx*k;d.z+=d.vz*k;
-if(d.x>-.05||d.x<-V/2-.6||Math.abs(d.z)>Z+.6)B.splice(i,1)}
-for(let i=P.length-1;i>=0;i--){const d=P[i];d.a=Math.min(1,d.a+dt*4);d.s=Math.min(3.2,d.s+dt*.35);if(Math.abs(tx)>.55){d.vx+=tx*.00012*k}if(Math.abs(ty)>.55){d.vz+=ty*.00012*k}d.vx*=.9;d.vz*=.9;d.x+=d.vx*k;d.z+=d.vz*k;
-if(d.x<.12){d.x=.12}if(d.x>V/2+.6||Math.abs(d.z)>Z+.6)P.splice(i,1)}
-B.forEach((d,i)=>{const r=d.r*(.4+.6*d.a);o.position.set(d.x,crown(d.x)+r*.55,d.z);o.scale.set(r,r*.78,r);o.rotation.set(0,0,0);o.updateMatrix();beads.setMatrixAt(i,o.matrix)});
-P.forEach((d,i)=>{const r=d.r*d.s*(.4+.6*d.a);o.position.set(d.x,crown(d.x)+.008,d.z);o.rotation.set(0,d.q,0);o.scale.set(r*d.e,.012,r/d.e);o.updateMatrix();sheets.setMatrixAt(i,o.matrix)});
-beads.count=B.length;sheets.count=P.length;beads.instanceMatrix.needsUpdate=sheets.instanceMatrix.needsUpdate=true;
-R.render(S,C);
-const deg=Math.round(Math.hypot(tx*.16,ty*.1)*57.3);tEl.textContent=String(deg).padStart(2,'0')+'°';cEl.textContent=String(B.length+P.length).padStart(3,'0')}
-requestAnimationFrame(frame)}
-</script>
+<script type="module" src="cer.js"></script>
 </body>
 </html>
