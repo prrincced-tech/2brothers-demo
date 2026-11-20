@@ -107,10 +107,10 @@ async function go() {
   const water = new T.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: .012, ior: 1.33, specularIntensity: 1, envMapIntensity: .9 });
   const key = new T.DirectionalLight(0xffffff, 3); key.position.set(-2, 6, 4); S.add(key);
   const bg = new T.SphereGeometry(1, mob ? 16 : 22, mob ? 10 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
-  const pg = new T.SphereGeometry(1, mob ? 22 : 30, 8, 0, Math.PI * 2, 0, 1.0); pg.translate(0, -Math.cos(1.0), 0);
-  const NB = mob ? 380 : 650, NP = mob ? 260 : 420;
-  const beads = new T.InstancedMesh(bg, water, NB), pud = new T.InstancedMesh(pg, water.clone(), NP);
-  beads.frustumCulled = pud.frustumCulled = false; pud.material.envMapIntensity = 2.2; pud.material.thickness = .004; S.add(beads, pud);
+  const pg = new T.SphereGeometry(1, mob ? 18 : 26, mob ? 7 : 10, 0, Math.PI * 2, 0, 1.25); pg.translate(0, -Math.cos(1.25), 0);
+  const NB = mob ? 380 : 650, NP = mob ? 360 : 600;
+  const beads = new T.InstancedMesh(bg, water, NB), pud = new T.InstancedMesh(pg, water, NP);
+  beads.frustumCulled = pud.frustumCulled = false; S.add(beads, pud);
   const B = [], P = [], rnd = (a, b) => a + Math.random() * (b - a), q = {};
   let rolled = 0, dry = 0;
   function drop(px, pz) {
@@ -120,8 +120,9 @@ async function go() {
       if (dry > 0 && px === undefined) return;
       if (B.length < NB) B.push({ x, z, vx: 0, vz: 0, r: rnd(.011, .03), a: 0, f: 0, y: q.h, vy: 0, nx: q.nx, ny: q.ny, nz: q.nz });
     } else {
-      for (const p of P) if (Math.hypot(p.x - x, p.z - z) < p.r * 1.1 + .025) { p.g = Math.min(.16, p.g + .008); return; }
-      if (P.length < NP) P.push({ x, z, r: 0, g: rnd(.014, .045), e: rnd(.6, 1.6), t: rnd(0, 6.28), y: q.h, nx: q.nx, ny: q.ny, nz: q.nz });
+      let near = null; for (const p of P) if (Math.hypot(p.x - x, p.z - z) < p.r + .006) { near = p; break; }
+      if (near && near.g < .055) { near.g = Math.min(.055, near.g + .004); return; }
+      if (P.length < NP) P.push({ x, z, r: 0, g: Math.random() < .15 ? rnd(.035, .055) : rnd(.012, .032), e: rnd(.75, 1.3), t: rnd(0, 6.28), y: q.h, nx: q.nx, ny: q.ny, nz: q.nz });
     }
   }
   for (let i = 0; i < (mob ? 2600 : 4200); i++) drop();
@@ -244,7 +245,7 @@ async function go() {
     // bare clearcoat puddles: stick, spread, barely move
     for (let i = P.length - 1; i >= 0; i--) {
       const p = P[i]; p.r += (p.g - p.r) * Math.min(1, dt * 3);
-      if (wash > 0) p.g = Math.min(.18, p.g + dt * .012);
+      if (wash > 0) p.g = Math.min(.06, p.g + dt * .004);
       if (sam(p.x, p.z, q)) {
         const sl = Math.hypot(q.nx, q.nz);
         if (sl > .55) { p.x += q.nx * dt * .01; p.z += q.nz * dt * .01; }
@@ -260,7 +261,7 @@ async function go() {
     });
     P.forEach((p, i) => {
       nv.set(p.nx, p.ny, p.nz).normalize(); o.quaternion.setFromUnitVectors(UP, nv); qr.setFromAxisAngle(UP, p.t); o.quaternion.multiply(qr);
-      o.position.set(p.x, p.y + .0006, p.z); o.scale.set(p.r * p.e, Math.min(.02, p.r * .4), p.r / p.e);
+      o.position.set(p.x, p.y + .0006, p.z); o.scale.set(p.r * p.e, p.r * .5, p.r / p.e);
       o.updateMatrix(); pud.setMatrixAt(i, o.matrix);
     });
     beads.count = B.length; pud.count = P.length; beads.instanceMatrix.needsUpdate = pud.instanceMatrix.needsUpdate = true;
