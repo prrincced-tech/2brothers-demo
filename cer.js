@@ -11,8 +11,8 @@ async function go() {
   const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
   const mob = matchMedia('(max-width:900px)').matches, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const R = new T.WebGLRenderer({ antialias: !mob, alpha: true, powerPreference: 'high-performance' });
-  R.setPixelRatio(Math.min(devicePixelRatio, mob ? 1.25 : 1.75));
+  const R = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+  R.setPixelRatio(Math.min(devicePixelRatio, mob ? 2 : 1.75));
   R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
   const view = document.getElementById('cerView'); view.appendChild(R.domElement);
   const S = new T.Scene(), C = new T.PerspectiveCamera(mob ? 36 : 28, 1, .05, 60);
@@ -104,12 +104,10 @@ async function go() {
   }
 
   // ---------- water ----------
-  const water = mob
-    ? new T.MeshPhysicalMaterial({ color: 0x06070a, metalness: 0, roughness: .03, ior: 1.33, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: 0, envMapIntensity: 1.6 })
-    : new T.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: .012, ior: 1.33, specularIntensity: 1, envMapIntensity: .9 });
+  const water = new T.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: .012, ior: 1.33, specularIntensity: 1, envMapIntensity: .9 });
   const key = new T.DirectionalLight(0xffffff, 3); key.position.set(-2, 6, 4); S.add(key);
-  const bg = new T.SphereGeometry(1, mob ? 10 : 22, mob ? 6 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
-  const pg = new T.SphereGeometry(1, mob ? 12 : 26, mob ? 4 : 10, 0, Math.PI * 2, 0, 1.25); pg.translate(0, -Math.cos(1.25), 0);
+  const bg = new T.SphereGeometry(1, mob ? 14 : 22, mob ? 9 : 14, 0, Math.PI * 2, 0, 2.05); bg.translate(0, -Math.cos(2.05), 0);
+  const pg = new T.SphereGeometry(1, mob ? 16 : 26, mob ? 6 : 10, 0, Math.PI * 2, 0, 1.25); pg.translate(0, -Math.cos(1.25), 0);
   const NB = mob ? 240 : 650, NP = mob ? 220 : 600;
   const beads = new T.InstancedMesh(bg, water, NB), pud = new T.InstancedMesh(pg, water, NP);
   beads.frustumCulled = pud.frustumCulled = false; S.add(beads, pud);
